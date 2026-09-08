@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import type { Profile } from '../lib/database.types';
+import { getAuthRedirectUrl } from '../lib/authUrl';
 
 interface SignUpData {
   email: string;
@@ -44,6 +45,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .single();
 
       if (!error && data) {
+        // Clean legacy blob: URLs if present in database
+        if (data.avatar_url && (data.avatar_url.startsWith('blob:') || data.avatar_url.startsWith('data:'))) {
+          await supabase
+            .from('profiles')
+            .update({ avatar_url: null })
+            .eq('id', userId);
+          data.avatar_url = null;
+        }
         setProfile(data as Profile);
       }
     } catch (err) {
@@ -98,7 +107,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           phone: phone || null,
           avatar_url: avatarUrl || null,
         },
-        emailRedirectTo: `${window.location.origin}/login`,
+        emailRedirectTo: getAuthRedirectUrl('/login'),
       },
     });
 
@@ -159,15 +168,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return { error: new Error('User not logged in or Supabase not configured.') };
     }
 
+    // Safety guard: prevent blob: or data: URLs from being stored
+    const safeUpdates = { ...updates };
+    if (safeUpdates.avatar_url && (safeUpdates.avatar_url.startsWith('blob:') || safeUpdates.avatar_url.startsWith('data:'))) {
+      safeUpdates.avatar_url = null;
+    }
+
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({ ...updates, updated_at: new Date().toISOString() })
+        .update({ ...safeUpdates, updated_at: new Date().toISOString() })
         .eq('id', user.id);
 
       if (error) return { error };
 
-      setProfile((prev) => (prev ? { ...prev, ...updates } : null));
+      setProfile((prev) => (prev ? { ...prev, ...safeUpdates } : null));
       return { error: null };
     } catch (err) {
       return { error: err as Error };

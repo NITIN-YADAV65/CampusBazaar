@@ -15,6 +15,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useMarketplace } from '../../context/MarketplaceContext';
 import { isSupabaseConfigured } from '../../lib/supabase';
+import { getSafeAvatarUrl, DEFAULT_AVATAR_URL } from '../../lib/avatar';
 
 export const Navbar: React.FC = () => {
   const { user, profile, signOut, isAdmin } = useAuth();
@@ -257,9 +258,15 @@ export const Navbar: React.FC = () => {
                   }}
                 >
                   <img
-                    src={profile?.avatar_url || user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}
+                    src={getSafeAvatarUrl(profile?.avatar_url || user.user_metadata?.avatar_url)}
                     alt="Profile"
                     style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src !== DEFAULT_AVATAR_URL) {
+                        target.src = DEFAULT_AVATAR_URL;
+                      }
+                    }}
                   />
                   <span style={{ fontSize: '0.875rem', fontWeight: 600, maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {profile?.full_name?.split(' ')[0] || user.user_metadata?.full_name?.split(' ')[0] || 'Account'}

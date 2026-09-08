@@ -35,6 +35,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useMarketplace } from '../context/MarketplaceContext';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { getSafeAvatarUrl, DEFAULT_AVATAR_URL } from '../lib/avatar';
 import '../styles/profile.css';
 
 // Helper to map listing category to clean Lucide icon matching the design reference
@@ -54,7 +55,7 @@ const getCategoryIcon = (categorySlugOrId?: string) => {
 };
 
 export const ProfilePage: React.FC = () => {
-  const { user, profile, updateProfile, isEmailVerified } = useAuth();
+  const { user, profile, updateProfile, isEmailVerified, refreshProfile } = useAuth();
   const { listings, favorites, deleteListing, markAsSold } = useMarketplace();
   const navigate = useNavigate();
 
@@ -69,6 +70,8 @@ export const ProfilePage: React.FC = () => {
   const [editBio, setEditBio] = useState('');
   const [editHostel, setEditHostel] = useState('');
   const [editAvatarUrl, setEditAvatarUrl] = useState('');
+  const [selectedAvatarFile, setSelectedAvatarFile] = useState<File | null>(null);
+  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [savingProfile, setSavingProfile] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
 
@@ -96,12 +99,12 @@ export const ProfilePage: React.FC = () => {
       setEditPhone(profile.phone || '');
       setEditBio(profile.bio || '');
       setEditHostel(savedHostel || metadataHostel || 'Block 11, Room 204');
-      setEditAvatarUrl(profile.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');
+      setEditAvatarUrl(getSafeAvatarUrl(profile.avatar_url, ''));
     } else if (user) {
       setEditName(user.user_metadata?.full_name || 'Campus Student');
       setEditPhone(user.user_metadata?.phone || '');
       setEditHostel(savedHostel || metadataHostel || 'Block 11, Room 204');
-      setEditAvatarUrl(user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');
+      setEditAvatarUrl(getSafeAvatarUrl(user.user_metadata?.avatar_url, ''));
     }
   }, [profile, user]);
 
@@ -137,40 +140,35 @@ export const ProfilePage: React.FC = () => {
     }
   }, [user?.created_at, profile?.created_at]);
 
-  // Handle avatar image file selection and direct upload
-  const handleAvatarFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle avatar image file selection and local preview
+  const handleAvatarFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Immediate local preview
-    const previewUrl = URL.createObjectURL(file);
-    setEditAvatarUrl(previewUrl);
-
-    // If Supabase Storage is configured, upload to listing-images bucket under /avatars
-    if (isSupabaseConfigured && user) {
-      try {
-        const fileExt = file.name.split('.').pop() || 'jpg';
-        const filePath = `avatars/${user.id}-${Date.now()}.${fileExt}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('listing-images')
-          .upload(filePath, file, { cacheControl: '3600', upsert: true });
-
-        if (!uploadError) {
-          const { data: urlData } = supabase.storage
-            .from('listing-images')
-            .getPublicUrl(filePath);
-
-          if (urlData?.publicUrl) {
-            setEditAvatarUrl(urlData.publicUrl);
-          }
-        } else {
-          console.warn('Avatar upload fallback to base64 preview:', uploadError.message);
-        }
-      } catch (err) {
-        console.warn('Avatar storage exception:', err);
-      }
+    if (!file.type.startsWith('image/')) {
+      setActionError('Please select a valid image file (JPEG, PNG, WEBP, GIF).');
+      return;
     }
+
+    // Clean up previous blob preview if present
+    if (avatarPreviewUrl) {
+      URL.revokeObjectURL(avatarPreviewUrl);
+    }
+
+    const previewUrl = URL.createObjectURL(file);
+    setSelectedAvatarFile(file);
+    setAvatarPreviewUrl(previewUrl);
+    setActionError(null);
+  };
+
+  const handleCloseModal = () => {
+    if (avatarPreviewUrl) {
+      URL.revokeObjectURL(avatarPreviewUrl);
+      setAvatarPreviewUrl(null);
+    }
+    setSelectedAvatarFile(null);
+    setEditAvatarUrl(getSafeAvatarUrl(profile?.avatar_url, ''));
+    setIsEditingProfile(false);
   };
 
   // Handle saving profile changes
@@ -179,15 +177,59 @@ export const ProfilePage: React.FC = () => {
     setSavingProfile(true);
     setActionError(null);
 
-    // 1. Update Supabase public.profiles table
+    let finalAvatarUrl: string | null = getSafeAvatarUrl(profile?.avatar_url, null as any);
+
+    // 1. If user selected a new file, upload to Supabase Storage 'listing-images' bucket under /avatars
+    if (selectedAvatarFile && isSupabaseConfigured && user) {
+      try {
+        const fileExt = selectedAvatarFile.name.split('.').pop() || 'jpg';
+        const filePath = `${user.id}/avatar-${Date.now()}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('listing-images')
+          .upload(filePath, selectedAvatarFile, {
+            contentType: selectedAvatarFile.type || 'image/jpeg',
+            cacheControl: '3600',
+            upsert: true
+          });
+
+        if (uploadError) {
+          console.error('Avatar upload failed:', uploadError);
+          setActionError(`Failed to upload avatar: ${uploadError.message}`);
+          setSavingProfile(false);
+          return;
+        }
+
+        const { data: urlData } = supabase.storage
+          .from('listing-images')
+          .getPublicUrl(filePath);
+
+        if (urlData?.publicUrl) {
+          finalAvatarUrl = urlData.publicUrl;
+        }
+      } catch (err: any) {
+        console.error('Avatar storage exception:', err);
+        setActionError(`Avatar upload error: ${err.message || 'Unknown error'}`);
+        setSavingProfile(false);
+        return;
+      }
+    } else if (editAvatarUrl && editAvatarUrl.trim()) {
+      // User entered an external image link
+      const safe = getSafeAvatarUrl(editAvatarUrl.trim(), null as any);
+      if (safe) {
+        finalAvatarUrl = safe;
+      }
+    }
+
+    // 2. Update Supabase public.profiles table
     const { error } = await updateProfile({
       full_name: editName.trim(),
       phone: editPhone.trim() || null,
       bio: editBio.trim() || null,
-      avatar_url: editAvatarUrl.trim() || null
+      avatar_url: finalAvatarUrl
     });
 
-    // 2. Persist hostel information in localStorage and auth user_metadata
+    // 3. Persist hostel information in localStorage and auth user_metadata
     if (user?.id) {
       localStorage.setItem(`cb_hostel_${user.id}`, editHostel.trim());
       if (isSupabaseConfigured) {
@@ -197,7 +239,7 @@ export const ProfilePage: React.FC = () => {
               full_name: editName.trim(),
               phone: editPhone.trim(),
               hostel: editHostel.trim(),
-              avatar_url: editAvatarUrl.trim()
+              avatar_url: finalAvatarUrl
             }
           });
         } catch (authErr) {
@@ -210,7 +252,13 @@ export const ProfilePage: React.FC = () => {
     if (error) {
       setActionError(error.message || 'Failed to update profile.');
     } else {
+      if (avatarPreviewUrl) {
+        URL.revokeObjectURL(avatarPreviewUrl);
+        setAvatarPreviewUrl(null);
+      }
+      setSelectedAvatarFile(null);
       setIsEditingProfile(false);
+      await refreshProfile();
     }
   };
 
@@ -251,7 +299,7 @@ export const ProfilePage: React.FC = () => {
   const displayPhone = profile?.phone || user?.user_metadata?.phone || editPhone;
   const displayEmail = user?.email || 'student@lpu.in';
   const displayBio = profile?.bio || editBio || 'A passionate student at LPU. Interested in tech, games, and always up for a good deal. Buying, selling, and connecting with fellow students. Let\'s make campus life easier together!';
-  const displayAvatar = profile?.avatar_url || editAvatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80';
+  const displayAvatar = getSafeAvatarUrl(profile?.avatar_url || user?.user_metadata?.avatar_url);
   const displayHostel = editHostel || 'Block 11, Room 204';
 
   return (
@@ -305,6 +353,12 @@ export const ProfilePage: React.FC = () => {
                 src={displayAvatar}
                 alt={displayName}
                 className="profile-avatar-img"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (target.src !== DEFAULT_AVATAR_URL) {
+                    target.src = DEFAULT_AVATAR_URL;
+                  }
+                }}
               />
               <button
                 type="button"
@@ -870,7 +924,7 @@ export const ProfilePage: React.FC = () => {
       {isEditingProfile && (
         <div 
           className="profile-modal-backdrop"
-          onClick={() => setIsEditingProfile(false)}
+          onClick={handleCloseModal}
         >
           <div 
             className="profile-modal-card"
@@ -881,7 +935,7 @@ export const ProfilePage: React.FC = () => {
               <h3 className="profile-modal-title">Edit Profile</h3>
               <button
                 type="button"
-                onClick={() => setIsEditingProfile(false)}
+                onClick={handleCloseModal}
                 className="profile-modal-close-btn"
                 aria-label="Close edit profile"
               >
@@ -899,9 +953,15 @@ export const ProfilePage: React.FC = () => {
                   title="Click to choose a new photo"
                 >
                   <img
-                    src={editAvatarUrl}
+                    src={avatarPreviewUrl || getSafeAvatarUrl(editAvatarUrl || profile?.avatar_url)}
                     alt="Preview"
                     className="profile-modal-avatar-img"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src !== DEFAULT_AVATAR_URL) {
+                        target.src = DEFAULT_AVATAR_URL;
+                      }
+                    }}
                   />
                   <div className="profile-modal-avatar-badge">
                     <Camera size={14} />
@@ -1008,7 +1068,7 @@ export const ProfilePage: React.FC = () => {
               <div className="profile-modal-actions">
                 <button
                   type="button"
-                  onClick={() => setIsEditingProfile(false)}
+                  onClick={handleCloseModal}
                   className="profile-modal-cancel-btn"
                 >
                   Cancel

@@ -1,21 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Store, Mail, Lock, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
+import { Store, Mail, Lock, ArrowRight, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { isSupabaseConfigured } from '../lib/supabase';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn } = useAuth();
+  const { signIn, user, loading: authLoading } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string>(() => {
+    if (typeof window === 'undefined') return '';
+    const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+    const searchParams = new URLSearchParams(window.location.search || '');
+    const desc = hashParams.get('error_description') || searchParams.get('error_description');
+    return desc ? decodeURIComponent(desc.replace(/\+/g, ' ')) : '';
+  });
   const [unverifiedAlert, setUnverifiedAlert] = useState(false);
+  const [verificationSuccess] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+    const type = hashParams.get('type');
+    return type === 'signup' || type === 'email_change';
+  });
 
   const redirectPath = (location.state as any)?.from?.pathname || '/';
+
+  // If user is already authenticated (e.g., Supabase automatically restored session on verification), redirect
+  useEffect(() => {
+    if (user && !authLoading) {
+      navigate(redirectPath, { replace: true });
+    }
+  }, [user, authLoading, navigate, redirectPath]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,6 +125,25 @@ export const LoginPage: React.FC = () => {
           }}>
             <AlertCircle size={16} />
             <span>{errorMessage}</span>
+          </div>
+        )}
+
+        {/* Email verification success notice */}
+        {verificationSuccess && (
+          <div style={{
+            backgroundColor: '#d1fae5',
+            color: '#065f46',
+            borderRadius: 'var(--radius-md)',
+            padding: '0.75rem',
+            fontSize: '0.8125rem',
+            marginBottom: '1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            lineHeight: 1.4
+          }}>
+            <CheckCircle2 size={16} color="#059669" />
+            <span>Email verified successfully! Welcome to CampusBazaar.</span>
           </div>
         )}
 

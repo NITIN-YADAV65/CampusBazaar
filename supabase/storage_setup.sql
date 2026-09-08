@@ -44,32 +44,53 @@ END $$;
 
 -- 4. CREATE CLEAN, ROBUST RLS POLICIES FOR 'listing-images' BUCKET
 
--- A. PUBLIC READ: Anyone (logged in or anonymous) can view listing images
+-- A. PUBLIC READ: Anyone (logged in or anonymous) can view listing and avatar images
 CREATE POLICY "listing_images_public_select"
 ON storage.objects FOR SELECT
 USING ( bucket_id = 'listing-images' );
 
--- B. AUTHENTICATED UPLOAD: Any authenticated student can upload into listing-images
--- (Fixes "new row violates row-level security policy")
-CREATE POLICY "listing_images_authenticated_insert"
+-- B. OWNER INSERT: Authenticated users can only upload into their own folder ({user_id}/...)
+-- Prevents uploading into other users' folders
+CREATE POLICY "listing_images_owner_insert"
 ON storage.objects FOR INSERT
 TO authenticated
-WITH CHECK ( bucket_id = 'listing-images' );
+WITH CHECK (
+  bucket_id = 'listing-images' AND
+  (
+    (storage.foldername(name))[1] = auth.uid()::text OR
+    ((storage.foldername(name))[1] = 'avatars' AND (storage.foldername(name))[2] = auth.uid()::text)
+  )
+);
 
--- C. AUTHENTICATED UPDATE: Allow updating files in listing-images
-CREATE POLICY "listing_images_authenticated_update"
+-- C. OWNER UPDATE: Authenticated users can only update/replace files in their own folder
+CREATE POLICY "listing_images_owner_update"
 ON storage.objects FOR UPDATE
 TO authenticated
-USING ( bucket_id = 'listing-images' )
-WITH CHECK ( bucket_id = 'listing-images' );
+USING (
+  bucket_id = 'listing-images' AND
+  (
+    (storage.foldername(name))[1] = auth.uid()::text OR
+    ((storage.foldername(name))[1] = 'avatars' AND (storage.foldername(name))[2] = auth.uid()::text)
+  )
+)
+WITH CHECK (
+  bucket_id = 'listing-images' AND
+  (
+    (storage.foldername(name))[1] = auth.uid()::text OR
+    ((storage.foldername(name))[1] = 'avatars' AND (storage.foldername(name))[2] = auth.uid()::text)
+  )
+);
 
--- D. AUTHENTICATED DELETE: Allow deleting files from listing-images
-CREATE POLICY "listing_images_authenticated_delete"
+-- D. OWNER DELETE: Authenticated users can only delete files in their own folder
+CREATE POLICY "listing_images_owner_delete"
 ON storage.objects FOR DELETE
 TO authenticated
 USING (
   bucket_id = 'listing-images' AND
-  (auth.uid() IS NOT NULL)
+  (
+    (storage.foldername(name))[1] = auth.uid()::text OR
+    ((storage.foldername(name))[1] = 'avatars' AND (storage.foldername(name))[2] = auth.uid()::text)
+  )
 );
 
 -- 5. ENSURE public.listing_images TABLE EXISTS AND HAS RLS
