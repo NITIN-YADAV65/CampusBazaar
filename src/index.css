@@ -1,0 +1,18 @@
+@import './styles/global.css';
+
+/* Mobile layout adjustments */
+@media (min-width: 768px) {
+  .mobile-only-nav {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .search-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .chat-layout {
+    grid-template-columns: 1fr !important;
+    height: 85vh !important;
+  }
+}
