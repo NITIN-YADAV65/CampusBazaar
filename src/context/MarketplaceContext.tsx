@@ -10,6 +10,7 @@ interface MarketplaceContextType {
   favorites: string[];
   loadingListings: boolean;
   unreadMessagesCount: number;
+  refreshUnreadCount: () => Promise<void>;
   toggleFavorite: (listingId: string) => Promise<void>;
   isFavorite: (listingId: string) => boolean;
   refreshListings: () => Promise<void>;
@@ -37,7 +38,144 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   });
   const [loadingListings, setLoadingListings] = useState<boolean>(false);
-  const unreadMessagesCount = 0;
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState<number>(0);
+
+  // ============================================================
+  // UNREAD MESSAGES COUNT (USER-SPECIFIC & REALTIME)
+  // ============================================================
+  const fetchUnreadCount = useCallback(async () => {
+    if (!isSupabaseConfigured || !user?.id) {
+      setUnreadMessagesCount(0);
+      return;
+    }
+
+    try {
+      // 1. Fetch unread messages where current user is the recipient
+      // Under Supabase RLS, selecting from messages only returns rows from conversations
+      // where the user is buyer or seller. Filtering neq('sender_id', user.id)
+      // ensures we only count messages received from the other party.
+      const { data: unreadMsgs, error: msgErr } = await supabase
+        .from('messages')
+        .select('id, conversation_id, sender_id, is_read, is_deleted')
+        .neq('sender_id', user.id)
+        .eq('is_read', false);
+
+      let msgList: any[] = unreadMsgs || [];
+
+      if (msgErr) {
+        // Fallback in case is_deleted column is not in schema cache
+        if (msgErr.message?.includes('is_deleted')) {
+          const fallback = await supabase
+            .from('messages')
+            .select('id, conversation_id, sender_id, is_read')
+            .neq('sender_id', user.id)
+            .eq('is_read', false);
+          if (!fallback.error && fallback.data) {
+            msgList = fallback.data;
+          } else {
+            return;
+          }
+        } else {
+          console.warn('Error fetching unread messages count:', msgErr.message);
+          return;
+        }
+      }
+
+      if (!msgList || msgList.length === 0) {
+        setUnreadMessagesCount(0);
+        return;
+      }
+
+      // Exclude soft-deleted messages
+      const nonDeletedMsgs = msgList.filter((m: any) => !m.is_deleted);
+      if (nonDeletedMsgs.length === 0) {
+        setUnreadMessagesCount(0);
+        return;
+      }
+
+      // 2. Identify hidden/deleted conversations for the current user
+      const hiddenConvIds = new Set<string>();
+      try {
+        const { data: hiddenSettings } = await supabase
+          .from('conversation_user_settings')
+          .select('conversation_id')
+          .eq('user_id', user.id)
+          .eq('is_hidden', true);
+
+        if (hiddenSettings) {
+          hiddenSettings.forEach((s: any) => hiddenConvIds.add(s.conversation_id));
+        }
+      } catch (err) {
+        console.warn('Could not load hidden settings for unread count:', err);
+      }
+
+      // Also check localStorage fallback for immediate local sync
+      try {
+        const local = localStorage.getItem(`cb_conv_settings_${user.id}`);
+        if (local) {
+          const parsed = JSON.parse(local);
+          Object.keys(parsed).forEach(cid => {
+            if (parsed[cid]?.is_hidden) hiddenConvIds.add(cid);
+          });
+        }
+      } catch {}
+
+      // 3. Count only unread messages from active, non-hidden conversations
+      const validUnread = nonDeletedMsgs.filter((m: any) => !hiddenConvIds.has(m.conversation_id));
+      setUnreadMessagesCount(validUnread.length);
+    } catch (err) {
+      console.warn('Exception calculating unread count:', err);
+    }
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (!isSupabaseConfigured || !user?.id) {
+      setUnreadMessagesCount(0);
+      return;
+    }
+
+    // Initial fetch on mount or user auth change
+    fetchUnreadCount();
+
+    // Supabase Realtime subscription to messages and conversation settings
+    const channel = supabase
+      .channel(`unread-badge:${user.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'messages'
+        },
+        () => {
+          fetchUnreadCount();
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'conversation_user_settings',
+          filter: `user_id=eq.${user.id}`
+        },
+        () => {
+          fetchUnreadCount();
+        }
+      )
+      .subscribe();
+
+    // Refresh when tab/window regains focus
+    const handleFocus = () => {
+      fetchUnreadCount();
+    };
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      supabase.removeChannel(channel);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [user?.id, fetchUnreadCount]);
 
   // ============================================================
   // FETCH LISTINGS FROM SUPABASE
@@ -160,7 +298,7 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }, []);
 
   // ============================================================
-  // FETCH CATEGORIES FROM SUPABASE
+  // FETCH CATEGORIES & REAL COUNTS FROM SUPABASE
   // ============================================================
   const fetchCategories = useCallback(async () => {
     if (!isSupabaseConfigured) {
@@ -169,18 +307,47 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
 
     try {
-      const { data, error } = await supabase
-        .from('categories')
-        .select('*');
+      // 1. Single efficient Supabase query to count active listings by category
+      // Respects the same active/visibility filter as marketplace explore/search queries
+      const { data: listingData, error: listingErr } = await supabase
+        .from('listings')
+        .select('category_id')
+        .eq('status', 'active');
 
-      if (error) {
-        console.error('FETCH CATEGORIES ERROR:', error);
-        return;
+      if (listingErr) {
+        console.warn('Error fetching listing category counts:', listingErr.message);
       }
 
-      if (data && data.length > 0) {
-        setCategories(data);
+      const counts: Record<string, number> = {};
+      if (listingData) {
+        for (const item of listingData) {
+          if (item.category_id) {
+            counts[item.category_id] = (counts[item.category_id] || 0) + 1;
+          }
+        }
       }
+
+      // 2. Query categories table if it exists, otherwise use base categories
+      let baseCategories: Category[] = DEMO_CATEGORIES;
+      try {
+        const { data: catData, error: catErr } = await supabase
+          .from('categories')
+          .select('*');
+
+        if (!catErr && catData && catData.length > 0) {
+          baseCategories = catData;
+        }
+      } catch {
+        // Fallback to base categories if table does not exist
+      }
+
+      // 3. Map real item counts from database (defaulting to 0 if category has 0 active listings)
+      const categoriesWithRealCounts: Category[] = baseCategories.map(cat => ({
+        ...cat,
+        itemCount: counts[cat.id] || 0
+      }));
+
+      setCategories(categoriesWithRealCounts);
     } catch (err) {
       console.error('FETCH CATEGORIES EXCEPTION:', err);
     }
@@ -230,7 +397,42 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
   useEffect(() => {
     fetchListings();
     fetchCategories();
-  }, [fetchListings, fetchCategories, user]);
+    fetchFavorites();
+
+    const handleFocus = () => {
+      fetchListings();
+      fetchCategories();
+    };
+    window.addEventListener('focus', handleFocus);
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [fetchListings, fetchCategories, fetchFavorites, user]);
+
+  // Realtime subscription for listings table changes
+  useEffect(() => {
+    if (!isSupabaseConfigured) return;
+
+    const listingsChannel = supabase
+      .channel('public-listings-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'listings'
+        },
+        () => {
+          fetchListings();
+          fetchCategories();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(listingsChannel);
+    };
+  }, [fetchListings, fetchCategories]);
 
   // Fetch user favorites when user changes
   useEffect(() => {
@@ -433,6 +635,7 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
         // 4. Refresh listings immediately from Supabase
         await fetchListings();
+        await fetchCategories();
 
         return { id: listingData.id, error: null };
       }
@@ -507,6 +710,7 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
       }
 
       setListings(prev => prev.filter(item => item.id !== listingId));
+      fetchCategories();
       return { error: null };
     } catch (err: any) {
       console.error('DELETE LISTING EXCEPTION:', err);
@@ -537,6 +741,7 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
       setListings(prev =>
         prev.map(item => (item.id === listingId ? { ...item, status: 'sold' } : item))
       );
+      fetchCategories();
       return { error: null };
     } catch (err: any) {
       console.error('MARK SOLD EXCEPTION:', err);
@@ -552,6 +757,7 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
         favorites,
         loadingListings,
         unreadMessagesCount,
+        refreshUnreadCount: fetchUnreadCount,
         toggleFavorite,
         isFavorite,
         refreshListings: fetchListings,

@@ -1,18 +1,18 @@
 import type { Listing, Category } from './database.types';
 
 export const DEMO_CATEGORIES: Category[] = [
-  { id: 'books', name: 'Books & Study Material', slug: 'books', icon: 'BookOpen', itemCount: 42 },
-  { id: 'electronics', name: 'Electronics', slug: 'electronics', icon: 'Cpu', itemCount: 31 },
-  { id: 'mobiles', name: 'Mobiles', slug: 'mobiles', icon: 'Smartphone', itemCount: 19 },
-  { id: 'laptops', name: 'Laptops', slug: 'laptops', icon: 'Laptop', itemCount: 15 },
-  { id: 'cycles', name: 'Cycles', slug: 'cycles', icon: 'Bike', itemCount: 27 },
-  { id: 'furniture', name: 'Furniture', slug: 'furniture', icon: 'Armchair', itemCount: 18 },
-  { id: 'hostel', name: 'Hostel Essentials', slug: 'hostel', icon: 'Home', itemCount: 35 },
-  { id: 'fashion', name: 'Fashion', slug: 'fashion', icon: 'Shirt', itemCount: 22 },
-  { id: 'sports', name: 'Sports', slug: 'sports', icon: 'Trophy', itemCount: 14 },
-  { id: 'accessories', name: 'Accessories', slug: 'accessories', icon: 'Watch', itemCount: 20 },
-  { id: 'vehicles', name: 'Vehicles', slug: 'vehicles', icon: 'Car', itemCount: 8 },
-  { id: 'other', name: 'Other', slug: 'other', icon: 'Package', itemCount: 11 },
+  { id: 'books', name: 'Books & Study Material', slug: 'books', icon: 'BookOpen', itemCount: 0 },
+  { id: 'electronics', name: 'Electronics', slug: 'electronics', icon: 'Cpu', itemCount: 0 },
+  { id: 'mobiles', name: 'Mobiles', slug: 'mobiles', icon: 'Smartphone', itemCount: 0 },
+  { id: 'laptops', name: 'Laptops', slug: 'laptops', icon: 'Laptop', itemCount: 0 },
+  { id: 'cycles', name: 'Cycles', slug: 'cycles', icon: 'Bike', itemCount: 0 },
+  { id: 'furniture', name: 'Furniture', slug: 'furniture', icon: 'Armchair', itemCount: 0 },
+  { id: 'hostel', name: 'Hostel Essentials', slug: 'hostel', icon: 'Home', itemCount: 0 },
+  { id: 'fashion', name: 'Fashion', slug: 'fashion', icon: 'Shirt', itemCount: 0 },
+  { id: 'sports', name: 'Sports', slug: 'sports', icon: 'Trophy', itemCount: 0 },
+  { id: 'accessories', name: 'Accessories', slug: 'accessories', icon: 'Watch', itemCount: 0 },
+  { id: 'vehicles', name: 'Vehicles', slug: 'vehicles', icon: 'Car', itemCount: 0 },
+  { id: 'other', name: 'Other', slug: 'other', icon: 'Package', itemCount: 0 },
 ];
 
 export const DEMO_LISTINGS: Listing[] = [

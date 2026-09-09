@@ -52,7 +52,7 @@ export const MessagesPage: React.FC = () => {
   const targetConversationId = searchParams.get('conversationId');
 
   const { user } = useAuth();
-  const { listings } = useMarketplace();
+  const { listings, refreshUnreadCount } = useMarketplace();
 
   // Conversations state: empty when Supabase is configured, or preview mock
   const [conversations, setConversations] = useState<Conversation[]>(() => {
@@ -385,6 +385,7 @@ export const MessagesPage: React.FC = () => {
         console.warn('Error syncing hide setting with Supabase:', err);
       }
     }
+    refreshUnreadCount();
   };
 
   // Re-fetch conversations when window regains focus
@@ -396,6 +397,49 @@ export const MessagesPage: React.FC = () => {
     window.addEventListener('focus', handleFocus);
     return () => window.removeEventListener('focus', handleFocus);
   }, [fetchConversations, fetchUserSettings]);
+
+  const markingReadRef = useRef<Set<string>>(new Set());
+
+  // Helper to mark unread messages in a conversation as read
+  const markMessagesAsRead = useCallback(async (convId: string) => {
+    if (!isSupabaseConfigured || !user?.id || !convId) return;
+    if (markingReadRef.current.has(convId)) return;
+
+    markingReadRef.current.add(convId);
+    try {
+      const { data, error } = await supabase
+        .from('messages')
+        .update({ is_read: true })
+        .eq('conversation_id', convId)
+        .neq('sender_id', user.id)
+        .eq('is_read', false)
+        .select('id');
+
+      if (!error && data && data.length > 0) {
+        setMessages(prev =>
+          prev.map(m =>
+            m.conversation_id === convId && m.sender_id !== user.id && !m.is_read
+              ? { ...m, is_read: true }
+              : m
+          )
+        );
+
+        setConversations(prev =>
+          prev.map(c =>
+            c.id === convId && c.last_message && c.last_message.sender_id !== user.id
+              ? { ...c, last_message: { ...c.last_message, is_read: true }, unread_count: 0 }
+              : c
+          )
+        );
+
+        refreshUnreadCount();
+      }
+    } catch (err) {
+      console.warn('Error marking messages as read:', err);
+    } finally {
+      markingReadRef.current.delete(convId);
+    }
+  }, [user?.id, refreshUnreadCount]);
 
   // Fetch real messages & reactions for the active conversation
   const fetchMessages = useCallback(async (convId: string) => {
@@ -438,11 +482,17 @@ export const MessagesPage: React.FC = () => {
           }
         }
         setMessages(msgs);
+
+        // If there are unread incoming messages in this active conversation, mark them as read
+        const hasUnread = msgs.some((m: any) => m.sender_id !== user.id && !m.is_read);
+        if (hasUnread) {
+          markMessagesAsRead(convId);
+        }
       }
     } catch (err) {
       console.error('Error fetching messages:', err);
     }
-  }, [user]);
+  }, [user, markMessagesAsRead]);
 
   useEffect(() => {
     if (activeConversationId) {
@@ -576,6 +626,11 @@ export const MessagesPage: React.FC = () => {
                 : c
             )
           );
+
+          // If incoming message is from the other party and currently active, mark as read immediately
+          if (newMsg.sender_id !== user?.id) {
+            markMessagesAsRead(activeConversationId);
+          }
         }
       )
       .on(
@@ -617,7 +672,7 @@ export const MessagesPage: React.FC = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [activeConversationId]);
+  }, [activeConversationId, user?.id, markMessagesAsRead]);
 
   // Real-time reactions subscription for the active conversation
   useEffect(() => {

@@ -206,14 +206,16 @@ export const Navbar: React.FC = () => {
                   color: '#ffffff',
                   fontSize: '0.6875rem',
                   fontWeight: 700,
-                  width: '18px',
+                  minWidth: '18px',
                   height: '18px',
-                  borderRadius: '50%',
+                  padding: '0 3px',
+                  borderRadius: 'var(--radius-full)',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  lineHeight: 1
                 }}>
-                  {unreadMessagesCount}
+                  {unreadMessagesCount > 99 ? '99+' : unreadMessagesCount}
                 </span>
               )}
             </Link>
@@ -412,14 +414,16 @@ export const Navbar: React.FC = () => {
                   color: '#ffffff',
                   fontSize: '0.625rem',
                   fontWeight: 700,
-                  width: '16px',
+                  minWidth: '16px',
                   height: '16px',
-                  borderRadius: '50%',
+                  padding: '0 2px',
+                  borderRadius: 'var(--radius-full)',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  lineHeight: 1
                 }}>
-                  {unreadMessagesCount}
+                  {unreadMessagesCount > 99 ? '99+' : unreadMessagesCount}
                 </span>
               )}
             </Link>

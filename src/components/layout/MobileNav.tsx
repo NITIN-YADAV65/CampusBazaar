@@ -109,14 +109,16 @@ export const MobileNav: React.FC = () => {
               color: '#ffffff',
               fontSize: '0.625rem',
               fontWeight: 700,
-              width: '14px',
+              minWidth: '14px',
               height: '14px',
-              borderRadius: '50%',
+              padding: '0 2px',
+              borderRadius: 'var(--radius-full)',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              lineHeight: 1
             }}>
-              {unreadMessagesCount}
+              {unreadMessagesCount > 99 ? '99+' : unreadMessagesCount}
             </span>
           )}
         </div>
