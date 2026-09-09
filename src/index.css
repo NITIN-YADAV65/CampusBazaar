@@ -1,18 +1,100 @@
 @import './styles/global.css';
 
-/* Mobile layout adjustments */
+/* Keyframes for chat animations */
+@keyframes chatPickerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Keyframes for chat and navigation animations */
+@keyframes chatPickerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile & Desktop Display Utilities */
 @media (min-width: 768px) {
   .mobile-only-nav {
+    display: none !important;
+  }
+  .mobile-search-row {
+    display: none !important;
+  }
+  .mobile-menu-drawer {
+    display: none !important;
+  }
+  .chat-back-mobile {
     display: none !important;
   }
 }
 
 @media (max-width: 767px) {
+  .desktop-only-nav {
+    display: none !important;
+  }
   .search-layout {
     grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+  .search-sidebar-hidden-mobile {
+    display: none !important;
   }
   .chat-layout {
     grid-template-columns: 1fr !important;
     height: 85vh !important;
+  }
+  .chat-sidebar-hidden-mobile {
+    display: none !important;
+  }
+  .chat-main-hidden-mobile {
+    display: none !important;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .product-detail-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.75rem !important;
+  }
+  .safety-banner-card {
+    grid-template-columns: 1fr !important;
+    padding: 1.25rem !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* Extra small devices (320px - 400px) */
+@media (max-width: 400px) {
+  .container {
+    padding-left: 0.875rem !important;
+    padding-right: 0.875rem !important;
+  }
+  .btn-lg {
+    padding: 0.75rem 1.25rem !important;
+    font-size: 0.9375rem !important;
   }
 }

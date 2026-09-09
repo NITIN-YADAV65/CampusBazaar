@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
       <div className="container">
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
           gap: '2.5rem',
           marginBottom: '3rem'
         }}>
@@ -42,7 +42,7 @@ export const Footer: React.FC = () => {
               Your Campus. Your Marketplace. A trustworthy, student-centric marketplace to buy and sell textbooks, gadgets, hostel essentials, and cycles safely.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem', color: '#cbd5e1' }}>
-              <MapPin size={16} color="#2dd4bf" />
+              <MapPin size={16} color="#2dd4bf" style={{ flexShrink: 0 }} />
               <span>Lovely Professional University, Phagwara, Punjab</span>
             </div>
           </div>
@@ -100,9 +100,9 @@ export const Footer: React.FC = () => {
           fontSize: '0.8125rem'
         }}>
           <p>© {new Date().getFullYear()} CampusBazaar. Built for campus students with passion.</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem 1.5rem' }}>
             <span>Verified Student Community</span>
-            <span>•</span>
+            <span className="desktop-only-nav">•</span>
             <span style={{ color: '#2dd4bf' }}>Open to all valid email domains</span>
           </div>
         </div>

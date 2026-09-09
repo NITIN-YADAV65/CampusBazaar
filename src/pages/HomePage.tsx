@@ -75,18 +75,22 @@ export const HomePage: React.FC = () => {
         }} />
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            alignItems: 'center',
-            gap: '3rem'
-          }}>
+          <div 
+            className="hero-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
+              alignItems: 'center',
+              gap: '3rem'
+            }}
+          >
             {/* Left Hero Content */}
             <div>
               {/* Badge */}
               <div style={{
                 display: 'inline-flex',
                 alignItems: 'center',
+                flexWrap: 'wrap',
                 gap: '0.5rem',
                 padding: '0.4rem 0.9rem',
                 borderRadius: 'var(--radius-full)',
@@ -96,14 +100,16 @@ export const HomePage: React.FC = () => {
                 fontSize: '0.8125rem',
                 fontWeight: 600,
                 color: 'var(--primary)',
-                marginBottom: '1.5rem'
+                marginBottom: '1.5rem',
+                maxWidth: '100%',
+                lineHeight: 1.4
               }}>
-                <Sparkles size={16} />
+                <Sparkles size={16} style={{ flexShrink: 0 }} />
                 <span>Loved by students across Lovely Professional University</span>
               </div>
 
               {/* Title & Subtitle */}
-              <h1 className="heading-hero" style={{ marginBottom: '1.25rem' }}>
+              <h1 className="heading-hero" style={{ marginBottom: '1.25rem', wordBreak: 'break-word' }}>
                 Buy & Sell Smarter Around Campus
               </h1>
               <p className="text-lead" style={{ marginBottom: '2rem', maxWidth: '540px' }}>
@@ -126,7 +132,8 @@ export const HomePage: React.FC = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '1.75rem',
+                flexWrap: 'wrap',
+                gap: '0.875rem 1.75rem',
                 marginTop: '2.5rem',
                 paddingTop: '1.5rem',
                 borderTop: '1px solid rgba(203, 213, 225, 0.6)',
@@ -134,15 +141,15 @@ export const HomePage: React.FC = () => {
                 color: 'var(--text-secondary)'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <ShieldCheck size={18} color="var(--primary)" />
+                  <ShieldCheck size={18} color="var(--primary)" style={{ flexShrink: 0 }} />
                   <span>Verified Profiles</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Zap size={18} color="#f59e0b" />
+                  <Zap size={18} color="#f59e0b" style={{ flexShrink: 0 }} />
                   <span>Zero Commission</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Users size={18} color="#6366f1" />
+                  <Users size={18} color="#6366f1" style={{ flexShrink: 0 }} />
                   <span>On-Campus Handover</span>
                 </div>
               </div>
@@ -197,9 +204,10 @@ export const HomePage: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 top: '-15px',
-                right: '20px',
+                right: '12px',
+                maxWidth: 'calc(100% - 24px)',
                 backgroundColor: '#ffffff',
-                padding: '0.75rem 1.25rem',
+                padding: '0.65rem 1rem',
                 borderRadius: 'var(--radius-lg)',
                 boxShadow: 'var(--shadow-lg)',
                 border: '1px solid var(--border-subtle)',
@@ -215,7 +223,8 @@ export const HomePage: React.FC = () => {
                   color: '#059669',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  flexShrink: 0
                 }}>
                   <TrendingUp size={20} />
                 </div>
@@ -235,7 +244,7 @@ export const HomePage: React.FC = () => {
 
       {/* 2. POPULAR CATEGORIES */}
       <section className="container">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.5rem' }}>
           <div>
             <h2 className="heading-section">Popular Categories</h2>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
@@ -257,7 +266,7 @@ export const HomePage: React.FC = () => {
 
       {/* 3. FEATURED LISTINGS */}
       <section className="container">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
             <div style={{
               width: '32px',
@@ -267,7 +276,8 @@ export const HomePage: React.FC = () => {
               color: '#d97706',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              flexShrink: 0
             }}>
               <Sparkles size={18} />
             </div>
@@ -317,7 +327,7 @@ export const HomePage: React.FC = () => {
 
       {/* 4. RECENTLY ADDED */}
       <section className="container">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
             <div style={{
               width: '32px',
@@ -327,7 +337,8 @@ export const HomePage: React.FC = () => {
               color: '#0d9488',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              flexShrink: 0
             }}>
               <Clock size={18} />
             </div>
@@ -377,7 +388,7 @@ export const HomePage: React.FC = () => {
 
       {/* 5. RECOMMENDED FOR YOU */}
       <section className="container">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
             <div style={{
               width: '32px',
@@ -387,7 +398,8 @@ export const HomePage: React.FC = () => {
               color: '#4f46e5',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              flexShrink: 0
             }}>
               <ThumbsUp size={18} />
             </div>
@@ -458,7 +470,7 @@ export const HomePage: React.FC = () => {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
             gap: '2rem'
           }}>
             <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
@@ -532,16 +544,19 @@ export const HomePage: React.FC = () => {
 
       {/* 7. SAFETY TIPS BANNER */}
       <section className="container">
-        <div style={{
-          backgroundColor: '#0f172a',
-          color: '#ffffff',
-          borderRadius: 'var(--radius-xl)',
-          padding: '2.5rem',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          alignItems: 'center',
-          gap: '2rem'
-        }}>
+        <div 
+          className="safety-banner-card"
+          style={{
+            backgroundColor: '#0f172a',
+            color: '#ffffff',
+            borderRadius: 'var(--radius-xl)',
+            padding: '2.5rem',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+            alignItems: 'center',
+            gap: '2rem'
+          }}
+        >
           <div>
             <div style={{
               display: 'inline-flex',

@@ -352,8 +352,9 @@ img {
 /* Toast Notifications */
 .toast-container {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  max-width: calc(100vw - 3rem);
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -361,10 +362,20 @@ img {
   pointer-events: none;
 }
 
+@media (max-width: 480px) {
+  .toast-container {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+}
+
 .toast {
   pointer-events: auto;
-  min-width: 300px;
+  min-width: min(100%, 280px);
   max-width: 420px;
+  width: 100%;
   padding: 1rem 1.25rem;
   border-radius: var(--radius-md);
   background-color: #1e293b;

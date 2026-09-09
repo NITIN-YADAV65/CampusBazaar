@@ -40,7 +40,7 @@ export const SafetyPage: React.FC = () => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', marginBottom: '3.5rem' }}>
         <h2 className="heading-section" style={{ fontSize: '1.5rem' }}>The 4 Golden Rules of Trading on Campus</h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: '1.5rem' }}>
           <div className="card" style={{ padding: '1.5rem', borderLeft: '4px solid var(--primary)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.75rem' }}>
               <MapPin size={22} color="var(--primary)" />
@@ -84,7 +84,7 @@ export const SafetyPage: React.FC = () => {
       </div>
 
       {/* Prohibited Items Section */}
-      <div id="rules" className="card" style={{ padding: '2rem', backgroundColor: '#fff1f2', borderColor: '#fecdd3', marginBottom: '3.5rem' }}>
+      <div id="rules" className="card" style={{ padding: 'clamp(1.25rem, 4vw, 2rem)', backgroundColor: '#fff1f2', borderColor: '#fecdd3', marginBottom: '3.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
           <AlertOctagon size={28} color="#e11d48" />
           <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#9f1239' }}>
@@ -97,7 +97,7 @@ export const SafetyPage: React.FC = () => {
         <ul style={{
           listStyle: 'none',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
           gap: '0.75rem',
           color: '#9f1239',
           fontSize: '0.875rem',

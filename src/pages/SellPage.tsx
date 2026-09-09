@@ -157,52 +157,74 @@ export const SellPage: React.FC = () => {
 
         {/* Step Indicator */}
         {currentStep < 5 && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginTop: '1.75rem' }}>
-            {[
-              { num: 1, label: 'Category' },
-              { num: 2, label: 'Photos' },
-              { num: 3, label: 'Details' },
-              { num: 4, label: 'Preview' }
-            ].map((step, idx) => (
-              <React.Fragment key={step.num}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    backgroundColor: currentStep === step.num 
-                      ? 'var(--primary)' 
-                      : currentStep > step.num 
-                        ? 'var(--success)' 
-                        : 'var(--bg-muted)',
-                    color: currentStep >= step.num ? '#ffffff' : 'var(--text-muted)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.8125rem',
-                    fontWeight: 700,
-                    transition: 'all var(--transition-fast)'
-                  }}>
-                    {currentStep > step.num ? <Check size={16} /> : step.num}
+          <>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.4rem',
+              marginTop: '1.75rem',
+              width: '100%',
+              maxWidth: '520px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              paddingLeft: '0.5rem',
+              paddingRight: '0.5rem'
+            }}>
+              {[
+                { num: 1, label: 'Category' },
+                { num: 2, label: 'Photos' },
+                { num: 3, label: 'Details' },
+                { num: 4, label: 'Preview' }
+              ].map((step, idx) => (
+                <React.Fragment key={step.num}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexShrink: 0 }}>
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      backgroundColor: currentStep === step.num 
+                        ? 'var(--primary)' 
+                        : currentStep > step.num 
+                          ? 'var(--success)' 
+                          : 'var(--bg-muted)',
+                      color: currentStep >= step.num ? '#ffffff' : 'var(--text-muted)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.8125rem',
+                      fontWeight: 700,
+                      transition: 'all var(--transition-fast)',
+                      flexShrink: 0
+                    }}>
+                      {currentStep > step.num ? <Check size={16} /> : step.num}
+                    </div>
+                    <span className="desktop-only-nav" style={{
+                      fontSize: '0.8125rem',
+                      fontWeight: currentStep === step.num ? 700 : 500,
+                      color: currentStep === step.num ? 'var(--text-primary)' : 'var(--text-muted)'
+                    }}>
+                      {step.label}
+                    </span>
                   </div>
-                  <span style={{
-                    fontSize: '0.8125rem',
-                    fontWeight: currentStep === step.num ? 700 : 500,
-                    color: currentStep === step.num ? 'var(--text-primary)' : 'var(--text-muted)'
-                  }}>
-                    {step.label}
-                  </span>
-                </div>
-                {idx < 3 && (
-                  <div style={{
-                    width: '36px',
-                    height: '2px',
-                    backgroundColor: currentStep > step.num ? 'var(--success)' : 'var(--border-strong)'
-                  }} />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
+                  {idx < 3 && (
+                    <div style={{
+                      flex: '1 1 12px',
+                      minWidth: '10px',
+                      maxWidth: '42px',
+                      height: '2px',
+                      backgroundColor: currentStep > step.num ? 'var(--success)' : 'var(--border-strong)'
+                    }} />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+
+            {/* Mobile active step label */}
+            <div className="mobile-only-nav" style={{ textAlign: 'center', marginTop: '0.5rem', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--primary)' }}>
+              Step {currentStep} of 4: {[ '', 'Choose Category', 'Add Photos', 'Item Details', 'Preview Listing' ][currentStep]}
+            </div>
+          </>
         )}
       </div>
 
@@ -411,7 +433,7 @@ export const SellPage: React.FC = () => {
           </div>
 
           {/* Price & Condition */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">Price in ₹ *</label>
               <input
@@ -454,7 +476,7 @@ export const SellPage: React.FC = () => {
           </div>
 
           {/* Contact Preference */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">Contact Preference</label>
               <select

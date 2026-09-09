@@ -191,7 +191,7 @@ export const ProductDetailsPage: React.FC = () => {
   return (
     <div className="container" style={{ paddingTop: '1.5rem', paddingBottom: '4rem' }}>
       {/* Breadcrumb Navigation */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.4rem 0.5rem', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
         <button
           onClick={() => navigate(-1)}
           style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}
@@ -208,19 +208,22 @@ export const ProductDetailsPage: React.FC = () => {
       </div>
 
       {/* Product Detail Layout */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '2.5rem',
-        marginBottom: '4rem'
-      }}>
+      <div 
+        className="product-detail-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
+          gap: '2.5rem',
+          marginBottom: '4rem'
+        }}
+      >
         {/* Left Col: Image Gallery */}
         <div>
           {/* Main Large Image / Placeholder */}
           {images.length > 0 ? (
             <div style={{
               width: '100%',
-              height: '420px',
+              height: 'clamp(260px, 55vw, 420px)',
               borderRadius: 'var(--radius-xl)',
               overflow: 'hidden',
               backgroundColor: '#0f172a',

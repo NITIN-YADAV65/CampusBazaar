@@ -107,13 +107,14 @@ export const SearchPage: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           gap: '0.75rem',
-          flex: '1 1 320px',
+          flex: '1 1 200px',
+          minWidth: 0,
           backgroundColor: 'var(--bg-muted)',
           borderRadius: 'var(--radius-full)',
           padding: '0.625rem 1.25rem',
           border: '1px solid var(--border-subtle)'
         }}>
-          <SearchIcon size={18} color="var(--text-muted)" />
+          <SearchIcon size={18} color="var(--text-muted)" style={{ flexShrink: 0 }} />
           <input
             type="text"
             placeholder="Search by title, keyword, or campus location..."
@@ -125,18 +126,19 @@ export const SearchPage: React.FC = () => {
               background: 'transparent',
               outline: 'none',
               fontSize: '0.9375rem',
-              color: 'var(--text-primary)'
+              color: 'var(--text-primary)',
+              minWidth: 0
             }}
           />
           {query && (
-            <button onClick={() => setQuery('')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+            <button onClick={() => setQuery('')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', flexShrink: 0 }}>
               <X size={16} />
             </button>
           )}
         </div>
 
         {/* Sort by dropdown */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
             Sort by:
           </span>
@@ -153,12 +155,12 @@ export const SearchPage: React.FC = () => {
 
           {/* Mobile Filter Toggle */}
           <button
-            className="btn btn-outline btn-sm"
+            className="btn btn-outline btn-sm mobile-only-nav"
             onClick={() => setShowMobileFilters(!showMobileFilters)}
             style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}
           >
             <SlidersHorizontal size={16} />
-            <span>Filters</span>
+            <span>{showMobileFilters ? 'Hide Filters' : 'Filters'}</span>
           </button>
         </div>
       </div>
@@ -171,14 +173,17 @@ export const SearchPage: React.FC = () => {
         alignItems: 'start'
       }} className="search-layout">
         {/* Left Sidebar Filters */}
-        <aside style={{
-          backgroundColor: 'var(--bg-surface)',
-          borderRadius: 'var(--radius-lg)',
-          border: '1px solid var(--border-subtle)',
-          padding: '1.5rem',
-          position: 'sticky',
-          top: '90px'
-        }}>
+        <aside 
+          className={`search-sidebar ${!showMobileFilters ? 'search-sidebar-hidden-mobile' : ''}`}
+          style={{
+            backgroundColor: 'var(--bg-surface)',
+            borderRadius: 'var(--radius-lg)',
+            border: '1px solid var(--border-subtle)',
+            padding: '1.5rem',
+            position: 'sticky',
+            top: '90px'
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Filter size={18} color="var(--primary)" />

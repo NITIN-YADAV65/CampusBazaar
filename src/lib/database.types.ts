@@ -80,6 +80,16 @@ export interface Favorite {
   listing?: Listing;
 }
 
+export interface ConversationUserSettings {
+  id: string;
+  conversation_id: string;
+  user_id: string;
+  is_pinned: boolean;
+  is_hidden: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Conversation {
   id: string;
   listing_id: string;
@@ -92,16 +102,60 @@ export interface Conversation {
   seller?: Profile;
   last_message?: Message;
   unread_count?: number;
+  is_pinned?: boolean;
+  is_hidden?: boolean;
+}
+
+export interface MessageReaction {
+  id: string;
+  message_id: string;
+  user_id: string;
+  reaction: string;
+  created_at: string;
+  user?: Profile;
 }
 
 export interface Message {
   id: string;
   conversation_id: string;
   sender_id: string;
-  content: string;
+  content: string | null;
+  image_url?: string | null;
   is_read: boolean;
+  is_edited?: boolean;
+  edited_at?: string | null;
+  is_deleted?: boolean;
+  deleted_at?: string | null;
   created_at: string;
   sender?: Profile;
+  reactions?: MessageReaction[];
+  reply_to_message_id?: string | null;
+  reply_to?: Message | null;
+}
+
+export interface UserBlock {
+  id: string;
+  blocker_id: string;
+  blocked_id: string;
+  created_at: string;
+}
+
+export type UserReportReason = 
+  | 'Scam / Fraud' 
+  | 'Harassment' 
+  | 'Prohibited item' 
+  | 'Spam' 
+  | 'Other';
+
+export interface UserReport {
+  id: string;
+  reporter_user_id: string;
+  reported_user_id: string;
+  conversation_id?: string | null;
+  reason: UserReportReason;
+  description?: string | null;
+  status: 'pending' | 'resolved' | 'dismissed';
+  created_at: string;
 }
 
 export interface Report {
