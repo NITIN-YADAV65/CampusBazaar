@@ -169,3 +169,33 @@ export interface Report {
   listing?: Listing;
   reporter?: Profile;
 }
+
+export type NotificationType = 
+  | 'new_listing' 
+  | 'new_message' 
+  | 'listing_sold' 
+  | 'price_change' 
+  | 'system';
+
+export interface NotificationItem {
+  id: string;
+  user_id: string;
+  type: NotificationType;
+  title: string;
+  body: string;
+  data: Record<string, any>;
+  is_read: boolean;
+  created_at: string;
+  read_at?: string | null;
+  push_sent_at?: string | null;
+}
+
+export interface PushSubscriptionItem {
+  id: string;
+  user_id: string;
+  endpoint: string;
+  p256dh: string;
+  auth: string;
+  created_at: string;
+  updated_at: string;
+}

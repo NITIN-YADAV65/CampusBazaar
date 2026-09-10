@@ -633,7 +633,25 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
           }
         }
 
-        // 4. Refresh listings immediately from Supabase
+        // 4. Dispatch push notifications to subscribed users via Edge Function (excludes seller)
+        // Note: In-app notifications are created atomically by the database trigger 'trigger_notify_new_listing'
+        try {
+          await supabase.functions.invoke('send-push', {
+            body: {
+              exclude_user_id: user.id,
+              title: 'New listing on CampusBazaar',
+              body: `New listing: ${listingData.title}`,
+              data: {
+                listing_id: listingData.id,
+                url: `/product/${listingData.id}`
+              }
+            }
+          });
+        } catch (notifErr) {
+          console.warn('Could not dispatch new listing push notifications:', notifErr);
+        }
+
+        // 5. Refresh listings immediately from Supabase
         await fetchListings();
         await fetchCategories();
 

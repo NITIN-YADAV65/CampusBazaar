@@ -18,6 +18,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useMarketplace } from '../../context/MarketplaceContext';
 import { isSupabaseConfigured } from '../../lib/supabase';
 import { getSafeAvatarUrl, DEFAULT_AVATAR_URL } from '../../lib/avatar';
+import { NotificationBell } from '../notifications/NotificationBell';
 
 export const Navbar: React.FC = () => {
   const { user, profile, signOut, isAdmin } = useAuth();
@@ -188,6 +189,9 @@ export const Navbar: React.FC = () => {
             >
               Explore
             </Link>
+
+            {/* In-App & Push Notifications Bell */}
+            <NotificationBell />
 
             {/* Messages */}
             <Link 
@@ -395,6 +399,9 @@ export const Navbar: React.FC = () => {
             >
               <Search size={20} />
             </button>
+
+            {/* Notification Bell with Badge on Mobile */}
+            <NotificationBell isMobileHeader />
 
             {/* Messages Icon with Badge */}
             <Link 

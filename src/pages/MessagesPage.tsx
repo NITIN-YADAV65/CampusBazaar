@@ -1396,6 +1396,66 @@ export const MessagesPage: React.FC = () => {
                 : c
             )
           );
+
+          // Dispatch notification to conversation recipient
+          const currentConv = conversations.find(c => c.id === activeConversationId);
+          const recipientId = currentConv
+            ? (currentConv.buyer_id === user.id ? currentConv.seller_id : currentConv.buyer_id)
+            : null;
+
+          if (recipientId) {
+            try {
+              const previewText = uploadedImageUrl && !textContent
+                ? 'Sent a photo'
+                : (textContent.length > 60 ? textContent.substring(0, 60) + '...' : textContent);
+              const senderName = user.user_metadata?.full_name || 'Campus Student';
+
+              // Ensure in-app notification exists if trigger has not executed
+              const { data: existingNotif } = await supabase
+                .from('notifications')
+                .select('id')
+                .eq('data->>message_id', data.id)
+                .maybeSingle();
+
+              let notifId = existingNotif?.id;
+
+              if (!notifId) {
+                const { data: insertedNotif } = await supabase
+                  .from('notifications')
+                  .insert({
+                    user_id: recipientId,
+                    type: 'new_message',
+                    title: 'New message on CampusBazaar',
+                    body: `New message from ${senderName}: ${previewText}`,
+                    data: {
+                      conversation_id: activeConversationId,
+                      message_id: data.id,
+                      sender_id: user.id,
+                      url: `/messages?conversationId=${activeConversationId}`
+                    },
+                    is_read: false
+                  })
+                  .select('id')
+                  .single();
+                notifId = insertedNotif?.id;
+              }
+
+              // Send Web Push to recipient's subscribed device(s)
+              await supabase.functions.invoke('send-push', {
+                body: notifId ? { notification_id: notifId } : {
+                  user_ids: [recipientId],
+                  title: 'New message on CampusBazaar',
+                  body: `New message from ${senderName}: ${previewText}`,
+                  data: {
+                    conversation_id: activeConversationId,
+                    url: `/messages?conversationId=${activeConversationId}`
+                  }
+                }
+              });
+            } catch (notifErr) {
+              console.warn('Could not dispatch push notification for message:', notifErr);
+            }
+          }
         }
       } else {
         // Mock preview fallback
