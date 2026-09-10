@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { MarketplaceProvider } from './context/MarketplaceContext';
 import { Navbar } from './components/layout/Navbar';
@@ -7,6 +7,7 @@ import { MobileNav } from './components/layout/MobileNav';
 import { Footer } from './components/layout/Footer';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AdminRoute } from './components/auth/AdminRoute';
+import { ScrollToTop } from './components/common/ScrollToTop';
 
 import { HomePage } from './pages/HomePage';
 import { SearchPage } from './pages/SearchPage';
@@ -21,9 +22,15 @@ import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { SafetyPage } from './pages/SafetyPage';
 
+const ProductDetailsRoute: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  return <ProductDetailsPage key={id} />;
+};
+
 export const App: React.FC = () => {
   return (
     <Router>
+      <ScrollToTop />
       <AuthProvider>
         <MarketplaceProvider>
           <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -33,7 +40,7 @@ export const App: React.FC = () => {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/search" element={<SearchPage />} />
-                <Route path="/product/:id" element={<ProductDetailsPage />} />
+                <Route path="/product/:id" element={<ProductDetailsRoute />} />
                 
                 {/* Protected Routes */}
                 <Route path="/sell" element={

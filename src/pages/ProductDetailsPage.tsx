@@ -34,12 +34,22 @@ export const ProductDetailsPage: React.FC = () => {
   const [loadingDirect, setLoadingDirect] = useState(false);
   const [togglingLike, setTogglingLike] = useState(false);
   const [recordedViewCount, setRecordedViewCount] = useState<number | null>(null);
-  const viewRecordedRef = React.useRef(false);
+  const lastRecordedIdRef = React.useRef<string | null>(null);
+
+  // Reset scroll position and product-specific state whenever ID changes
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    setActiveImageIndex(0);
+    setDirectListing(null);
+    setRecordedViewCount(null);
+    setReportModalOpen(false);
+    setCopiedLink(false);
+  }, [id]);
 
   // Record a real unique view when listing detail page is opened
   React.useEffect(() => {
-    if (!id || viewRecordedRef.current) return;
-    viewRecordedRef.current = true;
+    if (!id || lastRecordedIdRef.current === id) return;
+    lastRecordedIdRef.current = id;
 
     (async () => {
       const updatedCount = await recordView(id);
@@ -55,11 +65,13 @@ export const ProductDetailsPage: React.FC = () => {
     const existing = listings.find((item) => item.id === id);
     if (existing) {
       setDirectListing(existing);
+      setLoadingDirect(false);
       return;
     }
 
     if (isSupabaseConfigured) {
       setLoadingDirect(true);
+      setDirectListing(null);
       (async () => {
         try {
           // 1. Try full join
@@ -126,7 +138,7 @@ export const ProductDetailsPage: React.FC = () => {
     }
   }, [id, listings]);
 
-  const listing = listings.find((item) => item.id === id) || directListing;
+  const listing = listings.find((item) => item.id === id) || (directListing?.id === id ? directListing : null);
 
   if (loadingListings || loadingDirect) {
     return (
