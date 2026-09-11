@@ -10,15 +10,16 @@ import {
   CheckCircle, 
   PackageCheck, 
   ChevronRight, 
-  TrendingUp, 
   Clock, 
   ThumbsUp,
-  PackageSearch
+  PackageSearch,
+  MapPin
 } from 'lucide-react';
 import { useMarketplace } from '../context/MarketplaceContext';
 import { ProductCard } from '../components/product/ProductCard';
 import { CategoryCard } from '../components/product/CategoryCard';
 import { ProductGridSkeleton } from '../components/common/LoadingSkeleton';
+import { TopPromoBar } from '../components/home/TopPromoBar';
 
 export const HomePage: React.FC = () => {
   const { listings, categories, loadingListings } = useMarketplace();
@@ -42,116 +43,148 @@ export const HomePage: React.FC = () => {
     : activeListings.slice(0, 4);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '3.5rem' }}>
+      {/* TOP FLOATING PROMO BAR */}
+      <TopPromoBar />
+
       {/* 1. HERO SECTION */}
       <section style={{
         position: 'relative',
-        background: 'linear-gradient(180deg, #f0fdfa 0%, #f8fafc 100%)',
-        borderBottom: '1px solid var(--border-subtle)',
-        paddingTop: '3.5rem',
-        paddingBottom: '4.5rem',
+        paddingTop: '1rem',
+        paddingBottom: '3.5rem',
         overflow: 'hidden'
       }}>
-        {/* Decorative Background Blobs */}
-        <div style={{
-          position: 'absolute',
-          top: '-100px',
-          right: '-50px',
-          width: '450px',
-          height: '450px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(13, 148, 136, 0.12) 0%, rgba(255,255,255,0) 70%)',
-          pointerEvents: 'none'
-        }} />
-        <div style={{
-          position: 'absolute',
-          bottom: '-50px',
-          left: '-50px',
-          width: '350px',
-          height: '350px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(255,255,255,0) 70%)',
-          pointerEvents: 'none'
-        }} />
-
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div 
             className="hero-grid"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
               alignItems: 'center',
-              gap: '3rem'
+              gap: '3.5rem'
             }}
           >
             {/* Left Hero Content */}
             <div>
-              {/* Badge */}
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '0.5rem',
-                padding: '0.4rem 0.9rem',
-                borderRadius: 'var(--radius-full)',
-                backgroundColor: '#ffffff',
-                border: '1px solid #ccfbf1',
-                boxShadow: 'var(--shadow-sm)',
-                fontSize: '0.8125rem',
-                fontWeight: 600,
-                color: 'var(--primary)',
-                marginBottom: '1.5rem',
-                maxWidth: '100%',
-                lineHeight: 1.4
-              }}>
-                <Sparkles size={16} style={{ flexShrink: 0 }} />
-                <span>Loved by students across Lovely Professional University</span>
+              {/* Eyebrow Header Line */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.25rem' }}>
+                <span style={{ width: '28px', height: '3px', backgroundColor: '#0d9488', borderRadius: '2px', display: 'inline-block' }} />
+                <span style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.12em', color: '#0f766e', textTransform: 'uppercase' }}>
+                  WELCOME TO CAMPUSBAZAAR
+                </span>
               </div>
 
-              {/* Title & Subtitle */}
-              <h1 className="heading-hero" style={{ marginBottom: '1.25rem', wordBreak: 'break-word' }}>
-                Buy & Sell Smarter Around Campus
+              {/* Main Headline */}
+              <h1 style={{
+                fontSize: 'clamp(2.4rem, 4.5vw, 3.6rem)',
+                fontWeight: 800,
+                lineHeight: 1.12,
+                letterSpacing: '-0.03em',
+                color: '#0f172a',
+                marginBottom: '1.25rem'
+              }}>
+                Buy. Sell. Connect.<br />
+                <span style={{ color: '#0d9488' }}>Grow Together.</span>
               </h1>
-              <p className="text-lead" style={{ marginBottom: '2rem', maxWidth: '540px' }}>
-                Find great deals, sell things you no longer need, and connect with people around your campus. Safe, local, and student-powered.
+
+              {/* Supporting Text */}
+              <p style={{
+                fontSize: '1.0625rem',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.6,
+                marginBottom: '2rem',
+                maxWidth: '520px'
+              }}>
+                Your one-stop marketplace for everything on campus.<br />
+                Books, electronics, furniture, and more — by LPU students, for LPU students.
               </p>
 
-              {/* CTAs */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
-                <Link to="/search" className="btn btn-primary btn-lg">
-                  <span>Explore Marketplace</span>
-                  <ArrowRight size={18} />
-                </Link>
-                <Link to="/sell" className="btn btn-sell btn-lg">
-                  <PlusCircle size={18} />
-                  <span>Sell Something</span>
-                </Link>
-              </div>
-
-              {/* Trust Indicators */}
+              {/* Four Trust Points */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 flexWrap: 'wrap',
-                gap: '0.875rem 1.75rem',
-                marginTop: '2.5rem',
-                paddingTop: '1.5rem',
-                borderTop: '1px solid rgba(203, 213, 225, 0.6)',
-                fontSize: '0.8125rem',
-                color: 'var(--text-secondary)'
+                gap: '1.75rem',
+                marginBottom: '2.5rem'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <ShieldCheck size={18} color="var(--primary)" style={{ flexShrink: 0 }} />
-                  <span>Verified Profiles</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem', textAlign: 'center' }}>
+                  <ShieldCheck size={22} color="#0d9488" />
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>Safe & Local</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Zap size={18} color="#f59e0b" style={{ flexShrink: 0 }} />
-                  <span>Zero Commission</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem', textAlign: 'center' }}>
+                  <Users size={22} color="#0d9488" />
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>Verified Students</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Users size={18} color="#6366f1" style={{ flexShrink: 0 }} />
-                  <span>On-Campus Handover</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem', textAlign: 'center' }}>
+                  <Zap size={22} color="#0d9488" />
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>Zero Commission</span>
                 </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem', textAlign: 'center' }}>
+                  <MapPin size={22} color="#0d9488" />
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>On-Campus Only</span>
+                </div>
+              </div>
+
+              {/* Two Action CTAs */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+                <Link 
+                  to="/search" 
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.6rem',
+                    backgroundColor: '#0d9488',
+                    color: '#ffffff',
+                    padding: '0.85rem 1.85rem',
+                    borderRadius: '9999px',
+                    fontWeight: 700,
+                    fontSize: '0.9375rem',
+                    textDecoration: 'none',
+                    boxShadow: '0 4px 14px rgba(13, 148, 136, 0.28)',
+                    transition: 'all var(--transition-fast)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#0f766e';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(13, 148, 136, 0.38)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#0d9488';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 14px rgba(13, 148, 136, 0.28)';
+                  }}
+                >
+                  <span>Explore Items</span>
+                  <ArrowRight size={18} />
+                </Link>
+                <Link 
+                  to="/sell" 
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.55rem',
+                    backgroundColor: '#e6f9f3',
+                    color: '#0f766e',
+                    padding: '0.85rem 1.85rem',
+                    borderRadius: '9999px',
+                    fontWeight: 700,
+                    fontSize: '0.9375rem',
+                    textDecoration: 'none',
+                    border: '1.5px solid #ccfbf1',
+                    transition: 'all var(--transition-fast)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#ccfbf1';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#e6f9f3';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  <PlusCircle size={18} />
+                  <span>Sell Something</span>
+                </Link>
               </div>
             </div>
 
@@ -159,83 +192,16 @@ export const HomePage: React.FC = () => {
             <div style={{ position: 'relative' }}>
               <div style={{
                 position: 'relative',
-                borderRadius: 'var(--radius-xl)',
+                borderRadius: '24px',
                 overflow: 'hidden',
-                boxShadow: 'var(--shadow-xl)',
-                border: '1px solid rgba(255, 255, 255, 0.8)'
+                boxShadow: '0 20px 45px -15px rgba(15, 23, 42, 0.16)',
+                border: '1px solid rgba(226, 232, 240, 0.9)'
               }}>
                 <img 
                   src="/Campus_image/campus_home_image.jpeg" 
                   alt="LPU campus students collaborating" 
-                  style={{ width: '100%', height: '380px', objectFit: 'cover' }}
+                  style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
                 />
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(to top, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.1) 60%, transparent 100%)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-end',
-                  padding: '2rem',
-                  color: '#ffffff'
-                }}>
-                  <div style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                    backdropFilter: 'blur(8px)',
-                    padding: '0.35rem 0.75rem',
-                    borderRadius: 'var(--radius-full)',
-                    width: 'fit-content',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    marginBottom: '0.5rem'
-                  }}>
-                    CAMPUS COMMUNITY
-                  </div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.25rem' }}>
-                    UniMall, Hostels & Academic Blocks
-                  </h3>
-                  <p style={{ fontSize: '0.875rem', color: '#cbd5e1' }}>
-                    Connect directly with peers inside LPU for smooth and safe handoffs.
-                  </p>
-                </div>
-              </div>
-
-              {/* Floating Stat Pill */}
-              <div style={{
-                position: 'absolute',
-                top: '-15px',
-                right: '12px',
-                maxWidth: 'calc(100% - 24px)',
-                backgroundColor: '#ffffff',
-                padding: '0.65rem 1rem',
-                borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-lg)',
-                border: '1px solid var(--border-subtle)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem'
-              }}>
-                <div style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '10px',
-                  backgroundColor: '#d1fae5',
-                  color: '#059669',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0
-                }}>
-                  <TrendingUp size={20} />
-                </div>
-                <div>
-                  <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-                    {activeListings.length > 0 ? `${activeListings.length}` : '100%'}
-                  </div>
-                  <div style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)' }}>
-                    {activeListings.length > 0 ? 'Active Campus Listings' : 'Verified Campus Deals'}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
