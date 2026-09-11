@@ -165,8 +165,8 @@ export const HomePage: React.FC = () => {
                 border: '1px solid rgba(255, 255, 255, 0.8)'
               }}>
                 <img 
-                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=80" 
-                  alt="Campus students collaborating" 
+                  src="/Campus_image/campus_home_image.jpeg" 
+                  alt="LPU campus students collaborating" 
                   style={{ width: '100%', height: '380px', objectFit: 'cover' }}
                 />
                 <div style={{
