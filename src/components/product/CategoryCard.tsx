@@ -1,20 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  BookOpen, 
-  Cpu, 
-  Smartphone, 
-  Laptop, 
-  Bike, 
-  Armchair, 
-  Home, 
-  Shirt, 
-  Trophy, 
-  Watch, 
-  Car, 
-  Package 
-} from 'lucide-react';
 import type { Category } from '../../lib/database.types';
+import { getCategory3DIcon, getCategoryBgTint } from '../icons/Category3DIcons';
 
 interface CategoryCardProps {
   category: Category;
@@ -23,24 +10,6 @@ interface CategoryCardProps {
 }
 
 export const CategoryCard: React.FC<CategoryCardProps> = ({ category, selected, onClick }) => {
-  const getCategoryIcon = (iconName: string) => {
-    const props = { size: 24 };
-    switch (iconName) {
-      case 'BookOpen': return <BookOpen {...props} />;
-      case 'Cpu': return <Cpu {...props} />;
-      case 'Smartphone': return <Smartphone {...props} />;
-      case 'Laptop': return <Laptop {...props} />;
-      case 'Bike': return <Bike {...props} />;
-      case 'Armchair': return <Armchair {...props} />;
-      case 'Home': return <Home {...props} />;
-      case 'Shirt': return <Shirt {...props} />;
-      case 'Trophy': return <Trophy {...props} />;
-      case 'Watch': return <Watch {...props} />;
-      case 'Car': return <Car {...props} />;
-      default: return <Package {...props} />;
-    }
-  };
-
   const content = (
     <div
       style={{
@@ -48,7 +17,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, selected, 
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '1.25rem 0.75rem',
+        padding: '1rem 0.75rem',
         borderRadius: 'var(--radius-lg)',
         backgroundColor: selected ? 'var(--primary-light)' : 'var(--bg-surface)',
         border: `1.5px solid ${selected ? 'var(--primary)' : 'var(--border-subtle)'}`,
@@ -75,18 +44,18 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, selected, 
       }}
     >
       <div style={{
-        width: '48px',
-        height: '48px',
+        width: '100%',
+        height: '84px',
         borderRadius: '14px',
-        backgroundColor: selected ? 'var(--primary)' : 'var(--primary-light)',
-        color: selected ? '#ffffff' : 'var(--primary)',
+        backgroundColor: selected ? 'rgba(13, 148, 136, 0.14)' : getCategoryBgTint(category.id || category.icon || category.slug, category.name),
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: '0.75rem',
-        transition: 'all var(--transition-fast)'
+        transition: 'all var(--transition-fast)',
+        overflow: 'hidden'
       }}>
-        {getCategoryIcon(category.icon)}
+        {getCategory3DIcon(category.id || category.icon || category.slug, category.name, 72)}
       </div>
 
       <span style={{
