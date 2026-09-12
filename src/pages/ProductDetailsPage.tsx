@@ -214,7 +214,7 @@ export const ProductDetailsPage: React.FC = () => {
         <span style={{ color: 'var(--text-muted)' }}>/</span>
         <Link to="/search" style={{ color: 'var(--text-secondary)' }}>Marketplace</Link>
         <span style={{ color: 'var(--text-muted)' }}>/</span>
-        <span style={{ color: 'var(--text-primary)', fontWeight: 600, maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <span style={{ color: 'var(--text-primary)', fontWeight: 600, maxWidth: 'clamp(120px, 35vw, 280px)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {listing.title}
         </span>
       </div>
@@ -386,11 +386,11 @@ export const ProductDetailsPage: React.FC = () => {
           </div>
 
           {/* Action Buttons */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '2rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.65rem', marginBottom: '2rem' }}>
             <button
               onClick={handleStartChat}
               className="btn btn-primary btn-lg"
-              style={{ flex: '1 1 200px' }}
+              style={{ flex: '1 1 160px' }}
               disabled={listing.status === 'sold'}
             >
               <MessageSquare size={20} />

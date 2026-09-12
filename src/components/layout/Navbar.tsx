@@ -387,7 +387,7 @@ export const Navbar: React.FC = () => {
           </nav>
 
           {/* Mobile Actions Header (Visible on < 768px) */}
-          <div className="mobile-only-nav" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <div className="mobile-only-nav header-actions-mobile" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
             {/* Search Icon Toggle */}
             <button
               type="button"
@@ -403,42 +403,10 @@ export const Navbar: React.FC = () => {
             {/* Notification Bell with Badge on Mobile */}
             <NotificationBell isMobileHeader />
 
-            {/* Messages Icon with Badge */}
-            <Link 
-              to="/messages" 
-              className="btn btn-ghost btn-icon"
-              style={{ padding: '0.45rem', position: 'relative' }}
-              title="Messages"
-              aria-label="Messages"
-            >
-              <MessageSquare size={20} />
-              {unreadMessagesCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '2px',
-                  right: '2px',
-                  backgroundColor: 'var(--danger)',
-                  color: '#ffffff',
-                  fontSize: '0.625rem',
-                  fontWeight: 700,
-                  minWidth: '16px',
-                  height: '16px',
-                  padding: '0 2px',
-                  borderRadius: 'var(--radius-full)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  lineHeight: 1
-                }}>
-                  {unreadMessagesCount > 99 ? '99+' : unreadMessagesCount}
-                </span>
-              )}
-            </Link>
-
-            {/* Favorites Icon with Badge */}
+            {/* Favorites Icon with Badge (Visible on wider screens, also in drawer) */}
             <Link 
               to="/favorites" 
-              className="btn btn-ghost btn-icon"
+              className="btn btn-ghost btn-icon mobile-header-fav"
               style={{ padding: '0.45rem', position: 'relative' }}
               title="Favorites"
               aria-label="Favorites"
@@ -549,6 +517,74 @@ export const Navbar: React.FC = () => {
               >
                 <Store size={18} color="var(--primary)" />
                 <span>Explore Marketplace</span>
+              </Link>
+
+              {/* Messages Link */}
+              <Link
+                to="/messages"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: '0.9375rem',
+                  fontWeight: 600,
+                  color: 'var(--text-primary)',
+                  backgroundColor: location.pathname === '/messages' ? 'var(--bg-muted)' : 'transparent'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <MessageSquare size={18} color="var(--primary)" />
+                  <span>Messages</span>
+                </div>
+                {unreadMessagesCount > 0 && (
+                  <span style={{
+                    backgroundColor: 'var(--danger)',
+                    color: '#ffffff',
+                    fontSize: '0.6875rem',
+                    fontWeight: 700,
+                    padding: '0.15rem 0.5rem',
+                    borderRadius: 'var(--radius-full)'
+                  }}>
+                    {unreadMessagesCount > 99 ? '99+' : unreadMessagesCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* Saved Favorites Link */}
+              <Link
+                to="/favorites"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: '0.9375rem',
+                  fontWeight: 600,
+                  color: 'var(--text-primary)',
+                  backgroundColor: location.pathname === '/favorites' ? 'var(--bg-muted)' : 'transparent'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <Heart size={18} color="var(--primary)" />
+                  <span>Saved Favorites</span>
+                </div>
+                {favorites.length > 0 && (
+                  <span style={{
+                    backgroundColor: 'var(--primary-light)',
+                    color: 'var(--primary)',
+                    fontSize: '0.6875rem',
+                    fontWeight: 700,
+                    padding: '0.15rem 0.5rem',
+                    borderRadius: 'var(--radius-full)'
+                  }}>
+                    {favorites.length}
+                  </span>
+                )}
               </Link>
 
               {user ? (

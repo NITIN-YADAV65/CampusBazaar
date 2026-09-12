@@ -16,8 +16,8 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, selected, 
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1rem 0.75rem',
+        justifyContent: 'space-between',
+        padding: 'clamp(0.75rem, 2.5vw, 1rem) clamp(0.5rem, 2vw, 0.75rem)',
         borderRadius: 'var(--radius-lg)',
         backgroundColor: selected ? 'var(--primary-light)' : 'var(--bg-surface)',
         border: `1.5px solid ${selected ? 'var(--primary)' : 'var(--border-subtle)'}`,
@@ -25,7 +25,10 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, selected, 
         transition: 'all var(--transition-fast)',
         cursor: 'pointer',
         textAlign: 'center',
-        height: '100%'
+        height: '100%',
+        width: '100%',
+        boxSizing: 'border-box',
+        minWidth: 0
       }}
       className="category-card-hover"
       onMouseEnter={(e) => {
@@ -43,33 +46,49 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, selected, 
         }
       }}
     >
-      <div style={{
-        width: '100%',
-        height: '84px',
-        borderRadius: '14px',
-        backgroundColor: selected ? 'rgba(13, 148, 136, 0.14)' : getCategoryBgTint(category.id || category.icon || category.slug, category.name),
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: '0.75rem',
-        transition: 'all var(--transition-fast)',
-        overflow: 'hidden'
-      }}>
-        {getCategory3DIcon(category.id || category.icon || category.slug, category.name, 72)}
+      {/* Responsive 3D Icon Container */}
+      <div 
+        className="category-card-icon-box"
+        style={{
+          width: '100%',
+          height: 'clamp(64px, 17vw, 84px)',
+          borderRadius: '12px',
+          backgroundColor: selected ? 'rgba(13, 148, 136, 0.14)' : getCategoryBgTint(category.id || category.icon || category.slug, category.name),
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '0.65rem',
+          transition: 'all var(--transition-fast)',
+          overflow: 'hidden',
+          padding: '4px',
+          boxSizing: 'border-box'
+        }}
+      >
+        {getCategory3DIcon(category.id || category.icon || category.slug, category.name, 68)}
       </div>
 
+      {/* Category Name */}
       <span style={{
-        fontSize: '0.875rem',
+        fontSize: 'clamp(0.78rem, 2.3vw, 0.875rem)',
         fontWeight: 600,
         color: selected ? 'var(--primary)' : 'var(--text-primary)',
         lineHeight: 1.25,
-        marginBottom: '0.2rem'
+        marginBottom: '0.2rem',
+        wordBreak: 'break-word',
+        overflowWrap: 'break-word',
+        hyphens: 'auto',
+        width: '100%',
+        display: '-webkit-box',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+        overflow: 'hidden'
       }}>
         {category.name}
       </span>
 
+      {/* Item Count */}
       {category.itemCount !== undefined && (
-        <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+        <span style={{ fontSize: 'clamp(0.625rem, 1.8vw, 0.6875rem)', color: 'var(--text-muted)' }}>
           {category.itemCount} items
         </span>
       )}
@@ -78,14 +97,14 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, selected, 
 
   if (onClick) {
     return (
-      <div onClick={onClick} style={{ height: '100%' }}>
+      <div onClick={onClick} style={{ height: '100%', width: '100%', minWidth: 0 }}>
         {content}
       </div>
     );
   }
 
   return (
-    <Link to={`/search?category=${category.id}`} style={{ textDecoration: 'none', height: '100%' }}>
+    <Link to={`/search?category=${category.id}`} style={{ textDecoration: 'none', height: '100%', width: '100%', minWidth: 0, display: 'block' }}>
       {content}
     </Link>
   );

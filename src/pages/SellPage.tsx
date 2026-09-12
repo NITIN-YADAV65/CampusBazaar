@@ -243,7 +243,7 @@ export const SellPage: React.FC = () => {
 
       {/* STEP 1: SELECT CATEGORY */}
       {currentStep === 1 && (
-        <div className="card" style={{ padding: '2rem' }}>
+        <div className="card" style={{ padding: 'clamp(1rem, 3.5vw, 2rem)' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>
             Step 1: Choose a Category
           </h2>
@@ -282,7 +282,7 @@ export const SellPage: React.FC = () => {
 
       {/* STEP 2: UPLOAD UP TO 5 IMAGES */}
       {currentStep === 2 && (
-        <div className="card" style={{ padding: '2rem' }}>
+        <div className="card" style={{ padding: 'clamp(1rem, 3.5vw, 2rem)' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>
             Step 2: Add Photos (up to 5)
           </h2>
@@ -397,7 +397,7 @@ export const SellPage: React.FC = () => {
 
       {/* STEP 3: DETAILS (Title, description, price, condition, location, contact) */}
       {currentStep === 3 && (
-        <div className="card" style={{ padding: '2rem' }}>
+        <div className="card" style={{ padding: 'clamp(1rem, 3.5vw, 2rem)' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>
             Step 3: Item Details
           </h2>
@@ -515,9 +515,9 @@ export const SellPage: React.FC = () => {
         </div>
       )}
 
-      {/* STEP 4: PREVIEW LISTING */}
+      {/* STEP 4: PREVIEW & PUBLISH */}
       {currentStep === 4 && (
-        <div className="card" style={{ padding: '2rem' }}>
+        <div className="card" style={{ padding: 'clamp(1rem, 3.5vw, 2rem)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <Eye size={22} color="var(--primary)" />
             <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>
@@ -536,7 +536,7 @@ export const SellPage: React.FC = () => {
             marginBottom: '2rem',
             backgroundColor: '#ffffff'
           }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))' }}>
               <div style={{ backgroundColor: '#0f172a', height: '280px' }}>
                 <img
                   src={imagePreviews[0] || 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'}

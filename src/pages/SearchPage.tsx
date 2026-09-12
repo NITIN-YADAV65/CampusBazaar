@@ -88,30 +88,30 @@ export const SearchPage: React.FC = () => {
   }, [listings, query, selectedCategory, selectedCondition, minPrice, maxPrice, sortBy]);
 
   return (
-    <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
+    <div className="container" style={{ paddingTop: 'clamp(1rem, 3vw, 2rem)', paddingBottom: '4rem' }}>
       {/* Search Header Bar */}
       <div style={{
         backgroundColor: 'var(--bg-surface)',
         borderRadius: 'var(--radius-xl)',
-        padding: '1.25rem',
+        padding: 'clamp(0.875rem, 2.5vw, 1.25rem)',
         border: '1px solid var(--border-subtle)',
         boxShadow: 'var(--shadow-sm)',
-        marginBottom: '2rem',
+        marginBottom: '1.5rem',
         display: 'flex',
         flexWrap: 'wrap',
-        gap: '1rem',
+        gap: '0.75rem',
         alignItems: 'center',
         justifyContent: 'space-between'
       }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '0.75rem',
+          gap: '0.65rem',
           flex: '1 1 200px',
           minWidth: 0,
           backgroundColor: 'var(--bg-muted)',
           borderRadius: 'var(--radius-full)',
-          padding: '0.625rem 1.25rem',
+          padding: '0.55rem 1rem',
           border: '1px solid var(--border-subtle)'
         }}>
           <SearchIcon size={18} color="var(--text-muted)" style={{ flexShrink: 0 }} />
@@ -125,7 +125,7 @@ export const SearchPage: React.FC = () => {
               border: 'none',
               background: 'transparent',
               outline: 'none',
-              fontSize: '0.9375rem',
+              fontSize: 'clamp(0.875rem, 2vw, 0.9375rem)',
               color: 'var(--text-primary)',
               minWidth: 0
             }}
@@ -138,15 +138,15 @@ export const SearchPage: React.FC = () => {
         </div>
 
         {/* Sort by dropdown */}
-        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
+        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+          <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
             Sort by:
           </span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
             className="form-select"
-            style={{ width: 'auto', padding: '0.5rem 1rem', fontSize: '0.875rem', borderRadius: 'var(--radius-md)' }}
+            style={{ width: 'auto', padding: '0.45rem 0.75rem', fontSize: '0.8125rem', borderRadius: 'var(--radius-md)' }}
           >
             <option value="newest">Newest First</option>
             <option value="lowest_price">Price: Low to High</option>
@@ -160,7 +160,7 @@ export const SearchPage: React.FC = () => {
             style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}
           >
             <SlidersHorizontal size={16} />
-            <span>{showMobileFilters ? 'Hide Filters' : 'Filters'}</span>
+            <span>{showMobileFilters ? 'Hide' : 'Filters'}</span>
           </button>
         </div>
       </div>
@@ -289,7 +289,7 @@ export const SearchPage: React.FC = () => {
         </aside>
 
         {/* Results Area */}
-        <main>
+        <div className="search-results-main">
           {/* Header summary */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
             <span style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)' }}>
@@ -353,7 +353,7 @@ export const SearchPage: React.FC = () => {
               </button>
             </div>
           )}
-        </main>
+        </div>
       </div>
     </div>
   );

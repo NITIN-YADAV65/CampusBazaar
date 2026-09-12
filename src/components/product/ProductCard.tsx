@@ -137,11 +137,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ listing }) => {
       </div>
 
       {/* Content */}
-      <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+      <div style={{
+        padding: 'clamp(0.625rem, 2vw, 0.875rem)',
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        gap: '0.4rem'
+      }}>
         <div>
           {/* Price */}
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+            <span style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', fontWeight: 800, color: 'var(--text-primary)' }}>
               ₹{listing.price.toLocaleString('en-IN')}
             </span>
           </div>
@@ -149,43 +155,42 @@ export const ProductCard: React.FC<ProductCardProps> = ({ listing }) => {
           {/* Title */}
           <Link to={`/product/${listing.id}`}>
             <h3 style={{
-              fontSize: '0.9375rem',
+              fontSize: 'clamp(0.8125rem, 2vw, 0.9375rem)',
               fontWeight: 600,
               color: 'var(--text-primary)',
-              lineHeight: 1.35,
-              marginBottom: '0.5rem',
+              lineHeight: 1.3,
+              marginBottom: '0.35rem',
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              minHeight: '2.5rem'
+              overflow: 'hidden'
             }}>
               {listing.title}
             </h3>
           </Link>
 
           {/* Location, Time & Analytics */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', minWidth: 0 }}>
-                <MapPin size={13} color="var(--primary)" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '0.725rem', color: 'var(--text-secondary)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.35rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', minWidth: 0 }}>
+                <MapPin size={12} color="var(--primary)" style={{ flexShrink: 0 }} />
                 <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {listing.location}
                 </span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', color: 'var(--text-muted)', fontSize: '0.725rem', flexShrink: 0 }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.2rem' }} title={`${listing.views_count || 0} views`}>
-                  <Eye size={12} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: 'var(--text-muted)', fontSize: '0.6875rem', flexShrink: 0 }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.15rem' }} title={`${listing.views_count || 0} views`}>
+                  <Eye size={11} />
                   <span>{listing.views_count || 0}</span>
                 </span>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.2rem' }} title={`${listing.likes_count || 0} likes`}>
-                  <Heart size={12} fill={(listing.likes_count || 0) > 0 ? '#ef4444' : 'none'} color={(listing.likes_count || 0) > 0 ? '#ef4444' : 'currentColor'} />
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.15rem' }} title={`${listing.likes_count || 0} likes`}>
+                  <Heart size={11} fill={(listing.likes_count || 0) > 0 ? '#ef4444' : 'none'} color={(listing.likes_count || 0) > 0 ? '#ef4444' : 'currentColor'} />
                   <span>{listing.likes_count || 0}</span>
                 </span>
               </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-              <Clock size={13} color="var(--text-muted)" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: 'var(--text-muted)' }}>
+              <Clock size={11} style={{ flexShrink: 0 }} />
               <span>{formatTimeAgo(listing.created_at)}</span>
             </div>
           </div>
@@ -193,26 +198,27 @@ export const ProductCard: React.FC<ProductCardProps> = ({ listing }) => {
 
         {/* Seller Info */}
         <div style={{
+          marginTop: 'auto',
           borderTop: '1px solid var(--border-subtle)',
-          paddingTop: '0.65rem',
+          paddingTop: '0.45rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          fontSize: '0.75rem'
+          fontSize: '0.725rem'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', minWidth: 0 }}>
             <img 
               src={listing.seller?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'} 
               alt={listing.seller?.full_name || 'Seller'} 
-              style={{ width: '22px', height: '22px', borderRadius: '50%', objectFit: 'cover' }}
+              style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
             />
-            <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+            <span style={{ fontWeight: 600, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {listing.seller?.full_name?.split(' ')[0] || 'Campus Student'}
             </span>
           </div>
 
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.2rem', color: '#059669', fontWeight: 600, fontSize: '0.6875rem' }}>
-            <ShieldCheck size={13} />
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.2rem', color: '#059669', fontWeight: 600, fontSize: '0.6875rem', flexShrink: 0 }}>
+            <ShieldCheck size={12} />
             Verified
           </span>
         </div>

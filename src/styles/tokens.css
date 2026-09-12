@@ -59,7 +59,10 @@
   /* Layout & Spacing */
   --max-width: 1240px;
   --navbar-height: 72px;
-  --mobile-nav-height: 64px;
+  --navbar-height-mobile: 60px;
+  --mobile-nav-height: 62px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);

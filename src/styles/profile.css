@@ -1038,5 +1038,22 @@
   }
   .profile-modal-card {
     border-radius: 16px;
+    margin: 0.5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .profile-container {
+    padding: 0.75rem 0.5rem 3.5rem 0.5rem;
+  }
+  .profile-hero-body {
+    padding: 0 0.75rem 1.25rem 0.75rem;
+  }
+  .profile-modal-body {
+    padding: 1rem;
+  }
+  .profile-meta-row {
+    flex-direction: column;
+    gap: 0.35rem;
   }
 }

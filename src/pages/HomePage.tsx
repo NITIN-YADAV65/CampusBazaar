@@ -43,15 +43,15 @@ export const HomePage: React.FC = () => {
     : activeListings.slice(0, 4);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '3.5rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(2rem, 4.5vw, 3.5rem)' }}>
       {/* TOP FLOATING PROMO BAR */}
       <TopPromoBar />
 
       {/* 1. HERO SECTION */}
       <section style={{
         position: 'relative',
-        paddingTop: '1rem',
-        paddingBottom: '3.5rem',
+        paddingTop: '0.75rem',
+        paddingBottom: 'clamp(1.5rem, 4vw, 3.5rem)',
         overflow: 'hidden'
       }}>
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -61,13 +61,13 @@ export const HomePage: React.FC = () => {
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
               alignItems: 'center',
-              gap: '3.5rem'
+              gap: 'clamp(1.75rem, 4vw, 3.5rem)'
             }}
           >
             {/* Left Hero Content */}
             <div>
               {/* Eyebrow Header Line */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
                 <span style={{ width: '28px', height: '3px', backgroundColor: '#0d9488', borderRadius: '2px', display: 'inline-block' }} />
                 <span style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.12em', color: '#0f766e', textTransform: 'uppercase' }}>
                   WELCOME TO CAMPUSBAZAAR
@@ -76,12 +76,12 @@ export const HomePage: React.FC = () => {
 
               {/* Main Headline */}
               <h1 style={{
-                fontSize: 'clamp(2.4rem, 4.5vw, 3.6rem)',
+                fontSize: 'clamp(1.85rem, 5vw, 3.6rem)',
                 fontWeight: 800,
                 lineHeight: 1.12,
                 letterSpacing: '-0.03em',
                 color: '#0f172a',
-                marginBottom: '1.25rem'
+                marginBottom: '1rem'
               }}>
                 Buy. Sell. Connect.<br />
                 <span style={{ color: '#0d9488' }}>Grow Together.</span>
@@ -89,10 +89,10 @@ export const HomePage: React.FC = () => {
 
               {/* Supporting Text */}
               <p style={{
-                fontSize: '1.0625rem',
+                fontSize: 'clamp(0.9375rem, 2vw, 1.0625rem)',
                 color: 'var(--text-secondary)',
                 lineHeight: 1.6,
-                marginBottom: '2rem',
+                marginBottom: '1.75rem',
                 maxWidth: '520px'
               }}>
                 Your one-stop marketplace for everything on campus.<br />
@@ -101,32 +101,31 @@ export const HomePage: React.FC = () => {
 
               {/* Four Trust Points */}
               <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '1.75rem',
-                marginBottom: '2.5rem'
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                gap: '0.875rem',
+                marginBottom: '2rem'
               }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem', textAlign: 'center' }}>
-                  <ShieldCheck size={22} color="#0d9488" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <ShieldCheck size={20} color="#0d9488" style={{ flexShrink: 0 }} />
                   <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>Safe & Local</span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem', textAlign: 'center' }}>
-                  <Users size={22} color="#0d9488" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <Users size={20} color="#0d9488" style={{ flexShrink: 0 }} />
                   <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>Verified Students</span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem', textAlign: 'center' }}>
-                  <Zap size={22} color="#0d9488" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <Zap size={20} color="#0d9488" style={{ flexShrink: 0 }} />
                   <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>Zero Commission</span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem', textAlign: 'center' }}>
-                  <MapPin size={22} color="#0d9488" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <MapPin size={20} color="#0d9488" style={{ flexShrink: 0 }} />
                   <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>On-Campus Only</span>
                 </div>
               </div>
 
               {/* Two Action CTAs */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
                 <Link 
                   to="/search" 
                   style={{
@@ -418,11 +417,11 @@ export const HomePage: React.FC = () => {
         backgroundColor: '#ffffff',
         borderTop: '1px solid var(--border-subtle)',
         borderBottom: '1px solid var(--border-subtle)',
-        paddingTop: '4.5rem',
-        paddingBottom: '4.5rem'
+        paddingTop: 'clamp(2.5rem, 5vw, 4.5rem)',
+        paddingBottom: 'clamp(2.5rem, 5vw, 4.5rem)'
       }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 3rem auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto clamp(1.5rem, 4vw, 3rem) auto' }}>
             <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--primary)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
               Simple & Transparent
             </span>
@@ -437,9 +436,9 @@ export const HomePage: React.FC = () => {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
-            gap: '2rem'
+            gap: 'clamp(1rem, 3vw, 2rem)'
           }}>
-            <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+            <div className="card" style={{ padding: 'clamp(1.25rem, 3vw, 2rem)', textAlign: 'center' }}>
               <div style={{
                 width: '60px',
                 height: '60px',
@@ -461,7 +460,7 @@ export const HomePage: React.FC = () => {
               </p>
             </div>
 
-            <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+            <div className="card" style={{ padding: 'clamp(1.25rem, 3vw, 2rem)', textAlign: 'center' }}>
               <div style={{
                 width: '60px',
                 height: '60px',
@@ -483,7 +482,7 @@ export const HomePage: React.FC = () => {
               </p>
             </div>
 
-            <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+            <div className="card" style={{ padding: 'clamp(1.25rem, 3vw, 2rem)', textAlign: 'center' }}>
               <div style={{
                 width: '60px',
                 height: '60px',
@@ -516,11 +515,11 @@ export const HomePage: React.FC = () => {
             backgroundColor: '#0f172a',
             color: '#ffffff',
             borderRadius: 'var(--radius-xl)',
-            padding: '2.5rem',
+            padding: 'clamp(1.25rem, 4vw, 2.5rem)',
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
             alignItems: 'center',
-            gap: '2rem'
+            gap: '1.5rem'
           }}
         >
           <div>

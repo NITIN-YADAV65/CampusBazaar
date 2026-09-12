@@ -7,8 +7,8 @@ export const Footer: React.FC = () => {
     <footer style={{
       backgroundColor: '#0f172a',
       color: '#94a3b8',
-      paddingTop: '4rem',
-      paddingBottom: '2.5rem',
+      paddingTop: '3.5rem',
+      paddingBottom: 'calc(var(--mobile-nav-height) + var(--safe-bottom) + 2rem)',
       marginTop: 'auto',
       borderTop: '1px solid #1e293b'
     }}>

@@ -29,6 +29,12 @@ body {
   min-height: 100vh;
 }
 
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -50,18 +56,34 @@ img {
   max-width: var(--max-width);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: clamp(0.75rem, 3.5vw, 1.25rem);
+  padding-right: clamp(0.75rem, 3.5vw, 1.25rem);
+  box-sizing: border-box;
 }
 
 .main-content {
   flex: 1;
-  padding-bottom: 5rem;
+  padding-bottom: calc(var(--mobile-nav-height) + var(--safe-bottom) + 1.25rem);
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    padding-bottom: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body, #root, .app-container {
+    min-height: auto;
+  }
+  .main-content {
+    flex: initial;
+  }
 }
 
 /* Typography Utilities */
 .heading-hero {
-  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-size: clamp(1.85rem, 5.5vw, 3.5rem);
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -69,7 +91,7 @@ img {
 }
 
 .heading-section {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.25rem, 3.8vw, 2rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-primary);
@@ -312,28 +334,58 @@ img {
   gap: 1.5rem;
 }
 
+.grid-listings > * {
+  min-width: 0;
+}
+
 .grid-categories {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 1rem;
 }
 
-@media (max-width: 640px) {
+.grid-categories > * {
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
   .grid-listings {
-    grid-template-columns: repeat(2, 1fr);
     gap: 0.875rem;
   }
   
   .grid-categories {
     grid-template-columns: repeat(3, 1fr);
+    gap: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-listings {
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.625rem;
   }
 }
 
-@media (max-width: 440px) {
-  .grid-listings {
-    grid-template-columns: 1fr;
+@media (max-width: 480px) {
+  .grid-categories {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.625rem;
   }
+}
+
+@media (max-width: 360px) {
+  .grid-categories {
+    gap: 0.5rem;
+  }
+  .grid-listings {
+    gap: 0.5rem;
+  }
+}
+
+.category-card-icon-box svg {
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
 }
 
 /* Skeleton Loading */

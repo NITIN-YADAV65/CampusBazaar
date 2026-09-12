@@ -36,7 +36,7 @@ export const App: React.FC = () => {
       <AuthProvider>
         <MarketplaceProvider>
           <NotificationProvider>
-            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <div className="app-container">
               <Navbar />
               
               <main className="main-content">

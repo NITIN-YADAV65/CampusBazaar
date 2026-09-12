@@ -23,7 +23,8 @@ export const TopPromoBar: React.FC = () => {
           width: '100%',
           height: '100%',
           pointerEvents: 'none',
-          opacity: 0.7
+          opacity: 0.7,
+          overflow: 'hidden'
         }}
       >
         {/* Playful dashed swirl on left */}
@@ -62,7 +63,9 @@ export const TopPromoBar: React.FC = () => {
             overflowX: 'auto',
             paddingBottom: '0.25rem',
             scrollbarWidth: 'none',
-            msOverflowStyle: 'none'
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch',
+            maxWidth: '100%'
           }}
           className="promo-scroll-container"
         >
