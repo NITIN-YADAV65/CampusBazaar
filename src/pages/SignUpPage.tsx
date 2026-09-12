@@ -12,6 +12,7 @@ import {
   Image as ImageIcon 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { GoogleAuthButton } from '../components/auth/GoogleAuthButton';
 
 export const SignUpPage: React.FC = () => {
   const { signUp } = useAuth();
@@ -145,6 +146,34 @@ export const SignUpPage: React.FC = () => {
                 <span>{errorMessage}</span>
               </div>
             )}
+
+            {/* Google Authentication */}
+            <div style={{ marginBottom: '1.25rem' }}>
+              <GoogleAuthButton
+                label="Continue with Google"
+                redirectPath="/login"
+                onError={(msg) => setErrorMessage(msg)}
+              />
+            </div>
+
+            {/* Divider */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.875rem',
+              marginBottom: '1.5rem',
+            }}>
+              <div style={{ flex: 1, height: '1px', backgroundColor: '#e2e8f0' }} />
+              <span style={{
+                fontSize: '0.75rem',
+                color: 'var(--text-muted, #64748b)',
+                fontWeight: 500,
+                whiteSpace: 'nowrap'
+              }}>
+                or
+              </span>
+              <div style={{ flex: 1, height: '1px', backgroundColor: '#e2e8f0' }} />
+            </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit}>

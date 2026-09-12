@@ -21,6 +21,7 @@ interface AuthContextType {
   isAdmin: boolean;
   signUp: (data: SignUpData) => Promise<{ error: AuthError | Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: AuthError | Error | null }>;
+  signInWithGoogle: (redirectPath?: string) => Promise<{ error: AuthError | Error | null }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: AuthError | Error | null }>;
   updateProfile: (updates: Partial<Profile>) => Promise<{ error: Error | null }>;
@@ -35,25 +36,83 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = async (userId: string, currentUser?: User | null) => {
     if (!isSupabaseConfigured) return;
     try {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
 
       if (!error && data) {
+        const updatedProfile = { ...(data as Profile) };
+        let needsUpdate = false;
+        const updates: Partial<Profile> = {};
+
         // Clean legacy blob: URLs if present in database
         if (data.avatar_url && (data.avatar_url.startsWith('blob:') || data.avatar_url.startsWith('data:'))) {
+          updates.avatar_url = null;
+          updatedProfile.avatar_url = null;
+          needsUpdate = true;
+        }
+
+        // Safe metadata sync: only populate empty fields from OAuth metadata without overwriting custom data
+        const metaName = currentUser?.user_metadata?.full_name || currentUser?.user_metadata?.name;
+        const metaAvatar = currentUser?.user_metadata?.avatar_url || currentUser?.user_metadata?.picture;
+
+        if (!data.full_name && metaName) {
+          updates.full_name = metaName;
+          updatedProfile.full_name = metaName;
+          needsUpdate = true;
+        }
+
+        if (!data.avatar_url && metaAvatar && !metaAvatar.startsWith('blob:') && !metaAvatar.startsWith('data:')) {
+          updates.avatar_url = metaAvatar;
+          updatedProfile.avatar_url = metaAvatar;
+          needsUpdate = true;
+        }
+
+        if (needsUpdate) {
           await supabase
             .from('profiles')
-            .update({ avatar_url: null })
+            .update(updates)
             .eq('id', userId);
-          data.avatar_url = null;
         }
-        setProfile(data as Profile);
+
+        setProfile(updatedProfile);
+      } else if (!data) {
+        // Profile does not exist yet (e.g. initial Google OAuth login)
+        const initialName = currentUser?.user_metadata?.full_name || currentUser?.user_metadata?.name || 'Campus Member';
+        const rawAvatar = currentUser?.user_metadata?.avatar_url || currentUser?.user_metadata?.picture;
+        const initialAvatar = (rawAvatar && !rawAvatar.startsWith('blob:') && !rawAvatar.startsWith('data:')) ? rawAvatar : null;
+
+        const newProfileData = {
+          id: userId,
+          full_name: initialName,
+          avatar_url: initialAvatar,
+          role: 'user',
+        };
+
+        const { data: inserted, error: insertError } = await supabase
+          .from('profiles')
+          .insert(newProfileData)
+          .select('*')
+          .maybeSingle();
+
+        if (!insertError && inserted) {
+          setProfile(inserted as Profile);
+        } else {
+          // If trigger created it concurrently, re-fetch
+          const { data: retryData } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .maybeSingle();
+          if (retryData) {
+            setProfile(retryData as Profile);
+          }
+        }
       }
     } catch (err) {
       console.error('Error fetching user profile:', err);
@@ -71,7 +130,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id);
+        fetchProfile(session.user.id, session.user);
       }
       setLoading(false);
     });
@@ -81,7 +140,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        await fetchProfile(session.user.id);
+        await fetchProfile(session.user.id, session.user);
       } else {
         setProfile(null);
       }
@@ -142,6 +201,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error: null };
   };
 
+  const signInWithGoogle = async (redirectPath: string = '/login') => {
+    if (!isSupabaseConfigured) {
+      return { error: new Error('Supabase is not configured. Please check your environment variables.') };
+    }
+
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: getAuthRedirectUrl(redirectPath),
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'select_account',
+          },
+        },
+      });
+
+      if (error) return { error };
+      return { error: null };
+    } catch (err) {
+      return { error: err as Error };
+    }
+  };
+
   const signOut = async () => {
     if (isSupabaseConfigured) {
       await supabase.auth.signOut();
@@ -191,7 +274,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const refreshProfile = async () => {
     if (user) {
-      await fetchProfile(user.id);
+      await fetchProfile(user.id, user);
     }
   };
 
@@ -209,6 +292,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAdmin,
         signUp,
         signIn,
+        signInWithGoogle,
         signOut,
         resetPassword,
         updateProfile,

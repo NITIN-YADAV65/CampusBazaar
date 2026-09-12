@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Store, Mail, Lock, ArrowRight, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { isSupabaseConfigured } from '../lib/supabase';
+import { GoogleAuthButton } from '../components/auth/GoogleAuthButton';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const LoginPage: React.FC = () => {
     if (typeof window === 'undefined') return '';
     const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
     const searchParams = new URLSearchParams(window.location.search || '');
-    const desc = hashParams.get('error_description') || searchParams.get('error_description');
+    const desc = hashParams.get('error_description') || searchParams.get('error_description') || hashParams.get('error') || searchParams.get('error');
     return desc ? decodeURIComponent(desc.replace(/\+/g, ' ')) : '';
   });
   const [unverifiedAlert, setUnverifiedAlert] = useState(false);
@@ -161,6 +162,34 @@ export const LoginPage: React.FC = () => {
             <strong>Email verification required:</strong> Please click the confirmation link sent to your inbox before logging in.
           </div>
         )}
+
+        {/* Google Authentication */}
+        <div style={{ marginBottom: '1.25rem' }}>
+          <GoogleAuthButton
+            label="Continue with Google"
+            redirectPath={redirectPath}
+            onError={(msg) => setErrorMessage(msg)}
+          />
+        </div>
+
+        {/* Divider */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.875rem',
+          marginBottom: '1.5rem',
+        }}>
+          <div style={{ flex: 1, height: '1px', backgroundColor: '#e2e8f0' }} />
+          <span style={{
+            fontSize: '0.75rem',
+            color: 'var(--text-muted, #64748b)',
+            fontWeight: 500,
+            whiteSpace: 'nowrap'
+          }}>
+            or continue with email
+          </span>
+          <div style={{ flex: 1, height: '1px', backgroundColor: '#e2e8f0' }} />
+        </div>
 
         {/* Login Form */}
         <form onSubmit={handleSubmit}>
