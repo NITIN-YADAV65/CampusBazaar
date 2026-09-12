@@ -272,6 +272,14 @@ img {
   color: var(--text-muted);
 }
 
+/* Disable native Edge/IE password reveal and clear buttons to avoid duplicate eye icons */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .form-hint {
   font-size: 0.75rem;
   color: var(--text-secondary);
