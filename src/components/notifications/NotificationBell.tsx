@@ -49,10 +49,11 @@ export const NotificationBell: React.FC<{ isMobileHeader?: boolean }> = ({ isMob
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
+  const activeNotifications = notifications.filter(n => !n.is_read);
+  const unreadBadgeCount = unreadCount > 0 ? unreadCount : activeNotifications.length;
+
   const handleNotificationClick = async (notif: NotificationItem) => {
-    if (!notif.is_read) {
-      await markAsRead(notif.id);
-    }
+    await markAsRead(notif.id);
     setIsOpen(false);
 
     const targetUrl = notif.data?.url || (notif.data?.listing_id ? `/product/${notif.data.listing_id}` : '/');
@@ -85,7 +86,7 @@ export const NotificationBell: React.FC<{ isMobileHeader?: boolean }> = ({ isMob
         }}
       >
         <Bell size={20} />
-        {unreadCount > 0 && (
+        {unreadBadgeCount > 0 && (
           <span
             style={{
               position: 'absolute',
@@ -106,7 +107,7 @@ export const NotificationBell: React.FC<{ isMobileHeader?: boolean }> = ({ isMob
               boxShadow: '0 2px 4px rgba(13, 148, 136, 0.4)'
             }}
           >
-            {unreadCount > 99 ? '99+' : unreadCount}
+            {unreadBadgeCount > 99 ? '99+' : unreadBadgeCount}
           </span>
         )}
       </button>
@@ -146,7 +147,7 @@ export const NotificationBell: React.FC<{ isMobileHeader?: boolean }> = ({ isMob
               <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
                 Notifications
               </h3>
-              {unreadCount > 0 && (
+              {unreadBadgeCount > 0 && (
                 <span
                   style={{
                     backgroundColor: 'rgba(13, 148, 136, 0.1)',
@@ -157,12 +158,12 @@ export const NotificationBell: React.FC<{ isMobileHeader?: boolean }> = ({ isMob
                     borderRadius: 'var(--radius-full)'
                   }}
                 >
-                  {unreadCount} new
+                  {unreadBadgeCount} new
                 </span>
               )}
             </div>
 
-            {unreadCount > 0 && (
+            {unreadBadgeCount > 0 && (
               <button
                 type="button"
                 onClick={markAllAsRead}
@@ -241,7 +242,7 @@ export const NotificationBell: React.FC<{ isMobileHeader?: boolean }> = ({ isMob
               maxHeight: '400px'
             }}
           >
-            {notifications.length === 0 ? (
+            {activeNotifications.length === 0 ? (
               <div
                 style={{
                   padding: '3rem 1.5rem',
@@ -275,7 +276,7 @@ export const NotificationBell: React.FC<{ isMobileHeader?: boolean }> = ({ isMob
                 </p>
               </div>
             ) : (
-              notifications.map((item) => (
+              activeNotifications.map((item) => (
                 <div
                   key={item.id}
                   onClick={() => handleNotificationClick(item)}

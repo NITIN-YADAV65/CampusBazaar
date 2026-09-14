@@ -82,7 +82,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   }, [user?.id]);
 
-  // Fetch recent notifications for authenticated user
+  // Fetch unread notifications for authenticated user
   const fetchNotifications = useCallback(async () => {
     if (!isSupabaseConfigured || !user?.id) {
       setNotifications([]);
@@ -92,22 +92,42 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     setLoading(true);
     try {
+      // Query ONLY active unread notifications
       const { data, error } = await supabase
         .from('notifications')
         .select('*')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(30);
+        .eq('is_read', false)
+        .order('created_at', { ascending: false });
 
       if (error) {
-        console.warn('Error fetching notifications:', error.message);
+        console.warn('Error fetching unread notifications:', error.message);
         return;
       }
 
       if (data) {
-        setNotifications(data as NotificationItem[]);
-        const unread = data.filter((n: any) => !n.is_read).length;
-        setUnreadCount(unread);
+        // Deduplicate by ID and ensure only unread items are kept
+        const uniqueUnread: NotificationItem[] = [];
+        const seenIds = new Set<string>();
+        for (const item of data as NotificationItem[]) {
+          if (!seenIds.has(item.id) && !item.is_read) {
+            seenIds.add(item.id);
+            uniqueUnread.push(item);
+          }
+        }
+        setNotifications(uniqueUnread);
+        setUnreadCount(uniqueUnread.length);
+      }
+
+      // Cleanup any previously accumulated read notifications from database storage
+      try {
+        await supabase
+          .from('notifications')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('is_read', true);
+      } catch {
+        // Ignore background cleanup errors
       }
     } catch (err) {
       console.warn('Exception fetching notifications:', err);
@@ -181,43 +201,57 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return res;
   }, [user?.id]);
 
-  // Mark single notification as read
+  // Mark single notification as read and immediately remove it from active list and storage
   const markAsRead = useCallback(async (notificationId: string) => {
-    if (!user?.id || !isSupabaseConfigured) return;
-
-    // Optimistic UI update
-    setNotifications(prev =>
-      prev.map(n => (n.id === notificationId ? { ...n, is_read: true, read_at: new Date().toISOString() } : n))
-    );
+    // 1. Immediately remove from active state and decrease unread count
+    setNotifications(prev => prev.filter(n => n.id !== notificationId));
     setUnreadCount(prev => Math.max(0, prev - 1));
 
+    if (!user?.id || !isSupabaseConfigured) return;
+
     try {
+      // 2. Mark as read in database so it is never re-fetched as unread
       await supabase
         .from('notifications')
         .update({ is_read: true, read_at: new Date().toISOString() })
         .eq('id', notificationId)
         .eq('user_id', user.id);
+
+      // 3. Delete from database so read notifications do not accumulate in storage
+      await supabase
+        .from('notifications')
+        .delete()
+        .eq('id', notificationId)
+        .eq('user_id', user.id);
     } catch (err) {
-      console.warn('Error marking notification as read:', err);
+      console.warn('Error removing read notification:', err);
     }
   }, [user?.id]);
 
-  // Mark all notifications as read
+  // Mark all notifications as read and immediately remove all from active list and storage
   const markAllAsRead = useCallback(async () => {
-    if (!user?.id || !isSupabaseConfigured) return;
-
-    // Optimistic UI update
-    setNotifications(prev => prev.map(n => ({ ...n, is_read: true, read_at: new Date().toISOString() })));
+    // 1. Immediately clear active notifications and reset count
+    setNotifications([]);
     setUnreadCount(0);
 
+    if (!user?.id || !isSupabaseConfigured) return;
+
     try {
+      // 2. Mark all user notifications as read in database
       await supabase
         .from('notifications')
         .update({ is_read: true, read_at: new Date().toISOString() })
         .eq('user_id', user.id)
         .eq('is_read', false);
+
+      // 3. Remove all read notifications for user from database
+      await supabase
+        .from('notifications')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('is_read', true);
     } catch (err) {
-      console.warn('Error marking all notifications as read:', err);
+      console.warn('Error removing all read notifications:', err);
     }
   }, [user?.id]);
 
@@ -250,9 +284,10 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         },
         (payload) => {
           const newNotif = payload.new as NotificationItem;
-          if (!newNotif) return;
+          if (!newNotif || newNotif.is_read) return;
 
           setNotifications(prev => {
+            // Prevent duplicate notifications
             if (prev.some(n => n.id === newNotif.id)) return prev;
             return [newNotif, ...prev];
           });
@@ -284,9 +319,31 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
           const updated = payload.new as NotificationItem;
           if (!updated) return;
 
-          setNotifications(prev =>
-            prev.map(n => (n.id === updated.id ? { ...n, ...updated } : n))
-          );
+          // If notification was updated to read, immediately remove it from active list
+          if (updated.is_read) {
+            setNotifications(prev => prev.filter(n => n.id !== updated.id));
+            setUnreadCount(prev => Math.max(0, prev - 1));
+          } else {
+            setNotifications(prev =>
+              prev.map(n => (n.id === updated.id ? { ...n, ...updated } : n))
+            );
+          }
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`
+        },
+        (payload) => {
+          const old = payload.old as { id?: string };
+          if (old?.id) {
+            setNotifications(prev => prev.filter(n => n.id !== old.id));
+            setUnreadCount(prev => Math.max(0, prev - 1));
+          }
         }
       )
       .subscribe();

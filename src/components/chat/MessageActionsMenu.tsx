@@ -82,11 +82,11 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
         display: 'inline-flex',
         alignItems: 'center',
         gap: '2px',
-        backgroundColor: '#ffffff',
-        border: '1px solid #e2e8f0',
+        backgroundColor: 'var(--bg-surface)',
+        border: '1px solid var(--border-subtle)',
         borderRadius: '20px',
         padding: '2px 6px',
-        boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+        boxShadow: 'var(--shadow-md)',
         zIndex: 10
       }}
       onClick={(e) => e.stopPropagation()}
@@ -105,7 +105,7 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
               onClick={() => onReact(emoji)}
               title={hasReacted ? `Remove ${emoji}` : `React with ${emoji}`}
               style={{
-                background: hasReacted ? '#e0e7ff' : 'transparent',
+                background: hasReacted ? 'var(--primary-light)' : 'transparent',
                 border: 'none',
                 borderRadius: '12px',
                 width: '26px',
@@ -128,7 +128,7 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
       </div>
 
       {/* Divider */}
-      <div style={{ width: '1px', height: '16px', backgroundColor: '#e2e8f0', margin: '0 3px' }} />
+      <div style={{ width: '1px', height: '16px', backgroundColor: 'var(--border-subtle)', margin: '0 3px' }} />
 
       {/* Reply button */}
       <button
@@ -145,15 +145,15 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          color: '#64748b',
+          color: 'var(--text-secondary)',
           transition: 'color 0.1s ease, background-color 0.1s ease'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.color = '#2563eb';
-          e.currentTarget.style.backgroundColor = '#eff6ff';
+          e.currentTarget.style.color = 'var(--primary)';
+          e.currentTarget.style.backgroundColor = 'var(--bg-muted)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.color = '#64748b';
+          e.currentTarget.style.color = 'var(--text-secondary)';
           e.currentTarget.style.backgroundColor = 'transparent';
         }}
       >
@@ -176,7 +176,7 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            color: copied ? '#16a34a' : '#64748b',
+            color: copied ? 'var(--primary)' : 'var(--text-secondary)',
             transition: 'color 0.1s ease'
           }}
         >
@@ -191,7 +191,7 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
           onClick={() => setShowMenu(!showMenu)}
           title="More message options"
           style={{
-            background: showMenu ? '#f1f5f9' : 'none',
+            background: showMenu ? 'var(--bg-muted)' : 'none',
             border: 'none',
             borderRadius: '6px',
             width: '24px',
@@ -200,7 +200,7 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            color: '#64748b'
+            color: 'var(--text-secondary)'
           }}
         >
           <MoreVertical size={14} />
@@ -213,10 +213,10 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
               top: 'calc(100% + 4px)',
               right: isMine ? 0 : 'auto',
               left: isMine ? 'auto' : 0,
-              backgroundColor: '#ffffff',
-              border: '1px solid #e2e8f0',
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
               borderRadius: '10px',
-              boxShadow: '0 8px 20px rgba(0,0,0,0.12)',
+              boxShadow: 'var(--shadow-lg)',
               padding: '4px',
               minWidth: '130px',
               zIndex: 30,
@@ -238,14 +238,14 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
                 background: 'transparent',
                 borderRadius: '6px',
                 fontSize: '0.8125rem',
-                color: '#334155',
+                color: 'var(--text-primary)',
                 cursor: 'pointer',
                 textAlign: 'left'
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#eff6ff')}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-muted)')}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
             >
-              <Reply size={13} color="#2563eb" />
+              <Reply size={13} color="var(--primary)" />
               <span>Reply</span>
             </button>
 
@@ -263,14 +263,14 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
                   background: 'transparent',
                   borderRadius: '6px',
                   fontSize: '0.8125rem',
-                  color: '#334155',
+                  color: 'var(--text-primary)',
                   cursor: 'pointer',
                   textAlign: 'left'
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-muted)')}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
               >
-                {copied ? <Check size={13} color="#16a34a" /> : <Copy size={13} color="#64748b" />}
+                {copied ? <Check size={13} color="var(--primary)" /> : <Copy size={13} color="var(--text-secondary)" />}
                 <span>{copied ? 'Copied!' : 'Copy text'}</span>
               </button>
             )}
@@ -289,14 +289,14 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
                   background: 'transparent',
                   borderRadius: '6px',
                   fontSize: '0.8125rem',
-                  color: '#334155',
+                  color: 'var(--text-primary)',
                   cursor: 'pointer',
                   textAlign: 'left'
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-muted)')}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
               >
-                <Edit2 size={13} color="#2563eb" />
+                <Edit2 size={13} color="var(--primary)" />
                 <span>Edit message</span>
               </button>
             )}
@@ -319,7 +319,7 @@ export const MessageActionsMenu: React.FC<MessageActionsMenuProps> = ({
                   cursor: 'pointer',
                   textAlign: 'left'
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#fef2f2')}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.12)')}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
               >
                 <Trash2 size={13} color="#dc2626" />
@@ -381,14 +381,14 @@ export const ReactionBadges: React.FC<ReactionBadgesProps> = ({
             display: 'inline-flex',
             alignItems: 'center',
             gap: '3px',
-            backgroundColor: data.hasMine ? '#e0e7ff' : '#ffffff',
-            border: data.hasMine ? '1px solid #a5b4fc' : '1px solid #e2e8f0',
+            backgroundColor: data.hasMine ? 'var(--primary-light)' : 'var(--bg-surface-elevated)',
+            border: data.hasMine ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
             borderRadius: '12px',
             padding: '2px 7px',
             fontSize: '0.75rem',
             lineHeight: 1.2,
             cursor: 'pointer',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+            boxShadow: 'var(--shadow-sm)',
             transition: 'all 0.15s ease'
           }}
           onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.08)')}
@@ -399,7 +399,7 @@ export const ReactionBadges: React.FC<ReactionBadgesProps> = ({
             style={{
               fontWeight: 600,
               fontSize: '0.6875rem',
-              color: data.hasMine ? '#3730a3' : '#64748b'
+              color: data.hasMine ? 'var(--primary)' : 'var(--text-secondary)'
             }}
           >
             {data.count}

@@ -1508,7 +1508,7 @@ export const MessagesPage: React.FC = () => {
             borderRight: '1px solid var(--border-subtle)',
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: '#fafbfc',
+            backgroundColor: 'var(--bg-subtle)',
             overflow: 'hidden'
           }}
         >
@@ -1636,8 +1636,8 @@ export const MessagesPage: React.FC = () => {
                       }}
                       style={{
                         padding: '1rem 1.25rem',
-                        backgroundColor: isCurrent ? '#ffffff' : (isPinned ? '#f0fdfa' : '#fafbfc'),
-                        borderLeft: isCurrent ? '4px solid var(--primary)' : (isPinned ? '4px solid #0d9488' : '4px solid transparent'),
+                        backgroundColor: isCurrent ? 'var(--bg-surface)' : (isPinned ? 'var(--primary-light)' : 'var(--bg-subtle)'),
+                        borderLeft: isCurrent ? '4px solid var(--primary)' : (isPinned ? '4px solid var(--primary)' : '4px solid transparent'),
                         cursor: 'pointer',
                         position: 'relative',
                         zIndex: 2,
@@ -1658,8 +1658,8 @@ export const MessagesPage: React.FC = () => {
                                 {otherUser?.full_name || 'Campus Student'}
                               </span>
                               {isPinned && (
-                                <span title="Pinned conversation" style={{ display: 'inline-flex', alignItems: 'center', color: '#0d9488', flexShrink: 0 }}>
-                                  <Pin size={12} fill="#0d9488" />
+                                <span title="Pinned conversation" style={{ display: 'inline-flex', alignItems: 'center', color: 'var(--primary)', flexShrink: 0 }}>
+                                  <Pin size={12} fill="currentColor" />
                                 </span>
                               )}
                             </div>
@@ -1680,7 +1680,7 @@ export const MessagesPage: React.FC = () => {
                                   padding: '2px 4px',
                                   borderRadius: '4px',
                                   cursor: 'pointer',
-                                  color: isPinned ? '#0d9488' : '#94a3b8',
+                                  color: isPinned ? 'var(--primary)' : 'var(--text-muted)',
                                   display: (isPinned || hoveredConvId === conv.id) ? 'inline-flex' : 'none',
                                   alignItems: 'center',
                                   justifyContent: 'center',
@@ -1809,7 +1809,7 @@ export const MessagesPage: React.FC = () => {
                       onClick={() => setShowHeaderMenu(prev => !prev)}
                       title="Chat options"
                       style={{
-                        background: showHeaderMenu ? '#e2e8f0' : '#f1f5f9',
+                        background: showHeaderMenu ? 'var(--bg-muted)' : 'var(--bg-subtle)',
                         border: 'none',
                         borderRadius: '8px',
                         width: '34px',
@@ -1833,9 +1833,9 @@ export const MessagesPage: React.FC = () => {
                           position: 'absolute',
                           top: 'calc(100% + 6px)',
                           right: 0,
-                          backgroundColor: '#ffffff',
+                          backgroundColor: 'var(--bg-surface)',
                           borderRadius: '12px',
-                          boxShadow: '0 10px 25px rgba(0,0,0,0.12)',
+                          boxShadow: 'var(--shadow-xl)',
                           border: '1px solid var(--border-subtle)',
                           padding: '6px',
                           minWidth: '165px',
@@ -1866,10 +1866,10 @@ export const MessagesPage: React.FC = () => {
                             textAlign: 'left',
                             width: '100%'
                           }}
-                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-muted)')}
                           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                         >
-                          <Pin size={15} color={userSettings[activeConversationId]?.is_pinned ? '#0d9488' : '#64748b'} />
+                          <Pin size={15} color={userSettings[activeConversationId]?.is_pinned ? 'var(--primary)' : 'var(--text-muted)'} />
                           <span>{userSettings[activeConversationId]?.is_pinned ? 'Unpin chat' : 'Pin chat'}</span>
                         </button>
 
@@ -1899,7 +1899,7 @@ export const MessagesPage: React.FC = () => {
                               textAlign: 'left',
                               width: '100%'
                             }}
-                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = isBlockedByMe ? '#f0fdf4' : '#fef2f2')}
+                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = isBlockedByMe ? 'rgba(22, 163, 74, 0.12)' : 'rgba(220, 38, 38, 0.12)')}
                             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                           >
                             {isBlockedByMe ? <UserCheck size={15} color="#16a34a" /> : <Ban size={15} color="#dc2626" />}
@@ -1929,7 +1929,7 @@ export const MessagesPage: React.FC = () => {
                               textAlign: 'left',
                               width: '100%'
                             }}
-                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#fef2f2')}
+                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(220, 38, 38, 0.12)')}
                             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                           >
                             <Flag size={15} color="#dc2626" />
@@ -1937,7 +1937,7 @@ export const MessagesPage: React.FC = () => {
                           </button>
                         )}
 
-                        <div style={{ height: '1px', backgroundColor: '#e2e8f0', margin: '2px 0' }} />
+                        <div style={{ height: '1px', backgroundColor: 'var(--border-subtle)', margin: '2px 0' }} />
 
                         <button
                           type="button"
@@ -1959,7 +1959,7 @@ export const MessagesPage: React.FC = () => {
                             textAlign: 'left',
                             width: '100%'
                           }}
-                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#fef2f2')}
+                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(220, 38, 38, 0.12)')}
                           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                         >
                           <Trash2 size={15} color="#dc2626" />
@@ -1981,18 +1981,18 @@ export const MessagesPage: React.FC = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '1rem',
-                  backgroundColor: '#f8fafc'
+                  backgroundColor: 'var(--bg-app)'
                 }}
               >
                 {/* Safety Prompt */}
                 <div style={{
-                  backgroundColor: '#f0fdfa',
-                  border: '1px solid #ccfbf1',
+                  backgroundColor: 'var(--primary-light)',
+                  border: '1px solid var(--border-subtle)',
                   borderRadius: 'var(--radius-md)',
                   padding: '0.65rem 1rem',
                   textAlign: 'center',
                   fontSize: '0.75rem',
-                  color: 'var(--primary-hover)',
+                  color: 'var(--primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -2020,7 +2020,7 @@ export const MessagesPage: React.FC = () => {
                           <span style={{
                             fontSize: '0.75rem',
                             color: 'var(--text-muted)',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'var(--bg-surface)',
                             padding: '0.25rem 0.75rem',
                             borderRadius: 'var(--radius-full)',
                             border: '1px solid var(--border-subtle)'
@@ -2060,7 +2060,7 @@ export const MessagesPage: React.FC = () => {
                           flexDirection: 'column',
                           alignItems: isMine ? 'flex-end' : 'flex-start',
                           position: 'relative',
-                          backgroundColor: highlightedMsgId === msg.id ? '#fef08a' : 'transparent',
+                          backgroundColor: highlightedMsgId === msg.id ? 'var(--primary-light)' : 'transparent',
                           borderRadius: '16px',
                           padding: highlightedMsgId === msg.id ? '4px' : '0',
                           transition: 'all 0.3s ease'
@@ -2098,17 +2098,17 @@ export const MessagesPage: React.FC = () => {
                             style={{
                               padding: '0.6rem 0.9rem',
                               borderRadius: '14px',
-                              backgroundColor: '#f1f5f9',
-                              color: '#94a3b8',
+                              backgroundColor: 'var(--bg-muted)',
+                              color: 'var(--text-muted)',
                               fontSize: '0.8125rem',
                               fontStyle: 'italic',
                               display: 'inline-flex',
                               alignItems: 'center',
                               gap: '6px',
-                              border: '1px dashed #cbd5e1'
+                              border: '1px dashed var(--border-subtle)'
                             }}
                           >
-                            <Trash2 size={13} color="#94a3b8" />
+                            <Trash2 size={13} color="var(--text-muted)" />
                             <span>This message was deleted</span>
                           </div>
                         ) : (
@@ -2116,7 +2116,7 @@ export const MessagesPage: React.FC = () => {
                           <div
                             style={{
                               borderRadius: isMine ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                              backgroundColor: isEmojiOnly && !msg.image_url ? 'transparent' : isMine ? 'var(--primary)' : '#ffffff',
+                              backgroundColor: isEmojiOnly && !msg.image_url ? 'transparent' : isMine ? 'var(--primary)' : 'var(--bg-surface-elevated)',
                               color: isMine ? '#ffffff' : 'var(--text-primary)',
                               fontSize: isEmojiOnly && !msg.image_url ? '2.5rem' : '0.875rem',
                               lineHeight: isEmojiOnly && !msg.image_url ? 1.2 : 1.45,
@@ -2147,7 +2147,7 @@ export const MessagesPage: React.FC = () => {
                                     padding: '5px 8px',
                                     marginBottom: '6px',
                                     borderRadius: '8px',
-                                    backgroundColor: isMine ? 'rgba(255, 255, 255, 0.22)' : 'rgba(0, 0, 0, 0.05)',
+                                    backgroundColor: isMine ? 'rgba(255, 255, 255, 0.22)' : 'var(--bg-muted)',
                                     borderLeft: `3px solid ${isMine ? '#ffffff' : 'var(--primary)'}`,
                                     cursor: 'pointer',
                                     fontSize: '0.75rem',
@@ -2233,11 +2233,11 @@ export const MessagesPage: React.FC = () => {
 
                         {/* Timestamp & Edited Indicator */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '0.2rem', padding: '0 0.25rem' }}>
-                          <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+                          <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)' }}>
                             {msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
                           </span>
                           {!isDeleted && msg.is_edited && (
-                            <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                            <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
                               (edited)
                             </span>
                           )}
@@ -2253,8 +2253,8 @@ export const MessagesPage: React.FC = () => {
               {editingMessage && (
                 <div
                   style={{
-                    backgroundColor: '#eff6ff',
-                    borderTop: '1px solid #bfdbfe',
+                    backgroundColor: 'var(--bg-muted)',
+                    borderTop: '1px solid var(--border-subtle)',
                     padding: '8px 16px',
                     display: 'flex',
                     alignItems: 'center',
@@ -2263,12 +2263,12 @@ export const MessagesPage: React.FC = () => {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
-                    <Edit2 size={16} color="#2563eb" />
+                    <Edit2 size={16} color="var(--primary)" />
                     <div style={{ minWidth: 0 }}>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#1e40af' }}>Editing message:</span>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--primary)' }}>Editing message:</span>
                       <p style={{
                         fontSize: '0.8125rem',
-                        color: '#3b82f6',
+                        color: 'var(--text-secondary)',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
@@ -2285,7 +2285,7 @@ export const MessagesPage: React.FC = () => {
                       background: 'none',
                       border: 'none',
                       cursor: 'pointer',
-                      color: '#64748b',
+                      color: 'var(--text-muted)',
                       padding: '4px',
                       display: 'flex',
                       alignItems: 'center'
@@ -2302,7 +2302,7 @@ export const MessagesPage: React.FC = () => {
                 <div
                   style={{
                     padding: '8px 16px',
-                    backgroundColor: '#f8fafc',
+                    backgroundColor: 'var(--bg-muted)',
                     borderTop: '1px solid var(--border-subtle)',
                     display: 'flex',
                     alignItems: 'center',
@@ -2319,7 +2319,7 @@ export const MessagesPage: React.FC = () => {
                         height: '48px',
                         borderRadius: '8px',
                         objectFit: 'cover',
-                        border: '1px solid #e2e8f0',
+                        border: '1px solid var(--border-subtle)',
                         flexShrink: 0
                       }}
                     />
@@ -2368,8 +2368,8 @@ export const MessagesPage: React.FC = () => {
               {replyingTo && (
                 <div
                   style={{
-                    backgroundColor: '#eff6ff',
-                    borderTop: '1px solid #bfdbfe',
+                    backgroundColor: 'var(--bg-muted)',
+                    borderTop: '1px solid var(--border-subtle)',
                     borderLeft: '4px solid var(--primary)',
                     padding: '8px 16px',
                     display: 'flex',
@@ -2394,7 +2394,7 @@ export const MessagesPage: React.FC = () => {
                       </span>
                       <p style={{
                         fontSize: '0.8125rem',
-                        color: '#475569',
+                        color: 'var(--text-secondary)',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
@@ -2411,7 +2411,7 @@ export const MessagesPage: React.FC = () => {
                       background: 'none',
                       border: 'none',
                       cursor: 'pointer',
-                      color: '#64748b',
+                      color: 'var(--text-muted)',
                       padding: '4px',
                       display: 'flex',
                       alignItems: 'center'
@@ -2454,16 +2454,16 @@ export const MessagesPage: React.FC = () => {
                   <div
                     style={{
                       padding: '1rem 1.25rem',
-                      borderTop: '1px solid #e2e8f0',
-                      backgroundColor: '#f8fafc',
+                      borderTop: '1px solid var(--border-subtle)',
+                      backgroundColor: 'var(--bg-muted)',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
-                      color: '#64748b',
+                      color: 'var(--text-secondary)',
                       fontSize: '0.875rem'
                     }}
                   >
-                    <Ban size={18} color="#94a3b8" />
+                    <Ban size={18} color="var(--text-muted)" />
                     <span>You cannot send messages to this user because communication is blocked.</span>
                   </div>
                 ) : (
@@ -2506,13 +2506,13 @@ export const MessagesPage: React.FC = () => {
                           border: 'none',
                           borderRadius: '50%',
                           cursor: editingMessage ? 'not-allowed' : 'pointer',
-                          color: selectedImage ? 'var(--primary)' : '#64748b',
+                          color: selectedImage ? 'var(--primary)' : 'var(--text-muted)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           transition: 'background-color 0.15s ease, color 0.15s ease'
                         }}
-                        onMouseEnter={(e) => !editingMessage && (e.currentTarget.style.backgroundColor = '#f1f5f9')}
+                        onMouseEnter={(e) => !editingMessage && (e.currentTarget.style.backgroundColor = 'var(--bg-muted)')}
                         onMouseLeave={(e) => !editingMessage && (e.currentTarget.style.backgroundColor = 'transparent')}
                       >
                         <ImageIcon size={20} />
@@ -2525,17 +2525,17 @@ export const MessagesPage: React.FC = () => {
                         title="Insert emoji"
                         className="chat-composer-btn"
                         style={{
-                          background: showEmojiPicker ? '#e0e7ff' : 'none',
+                          background: showEmojiPicker ? 'var(--primary-light)' : 'none',
                           border: 'none',
                           borderRadius: '50%',
                           cursor: 'pointer',
-                          color: showEmojiPicker ? 'var(--primary)' : '#64748b',
+                          color: showEmojiPicker ? 'var(--primary)' : 'var(--text-muted)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           transition: 'background-color 0.15s ease, color 0.15s ease'
                         }}
-                        onMouseEnter={(e) => !showEmojiPicker && (e.currentTarget.style.backgroundColor = '#f1f5f9')}
+                        onMouseEnter={(e) => !showEmojiPicker && (e.currentTarget.style.backgroundColor = 'var(--bg-muted)')}
                         onMouseLeave={(e) => !showEmojiPicker && (e.currentTarget.style.backgroundColor = 'transparent')}
                       >
                         <Smile size={20} />
@@ -2553,9 +2553,9 @@ export const MessagesPage: React.FC = () => {
                           className="chat-composer-input"
                           style={{
                             borderRadius: 'var(--radius-full)',
-                            border: '1px solid #93c5fd',
+                            border: '1px solid var(--primary)',
                             outline: 'none',
-                            backgroundColor: '#eff6ff',
+                            backgroundColor: 'var(--bg-muted)',
                             color: 'var(--text-primary)'
                           }}
                         />
@@ -2575,7 +2575,7 @@ export const MessagesPage: React.FC = () => {
                             backgroundColor: 'var(--bg-muted)'
                           }}
                           onFocus={(e) => {
-                            e.currentTarget.style.backgroundColor = '#ffffff';
+                            e.currentTarget.style.backgroundColor = 'var(--bg-surface)';
                             e.currentTarget.style.borderColor = 'var(--primary)';
                           }}
                           onBlur={(e) => {
@@ -2691,13 +2691,13 @@ export const MessagesPage: React.FC = () => {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--bg-surface)',
               borderRadius: '16px',
               maxWidth: '400px',
               width: '100%',
               padding: '1.5rem',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-              border: '1px solid #e2e8f0'
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+              border: '1px solid var(--border-subtle)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>
@@ -2715,12 +2715,12 @@ export const MessagesPage: React.FC = () => {
               >
                 <AlertCircle size={22} />
               </div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#1e293b', margin: 0 }}>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
                 Delete Message?
               </h3>
             </div>
 
-            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
               Are you sure you want to delete this message? It will be replaced with a deleted message notice and cannot be undone.
             </p>
 
@@ -2773,13 +2773,13 @@ export const MessagesPage: React.FC = () => {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--bg-surface)',
               borderRadius: '16px',
               maxWidth: '420px',
               width: '100%',
               padding: '1.5rem',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-              border: '1px solid #e2e8f0'
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+              border: '1px solid var(--border-subtle)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>
@@ -2797,12 +2797,12 @@ export const MessagesPage: React.FC = () => {
               >
                 <Trash2 size={20} />
               </div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#1e293b', margin: 0 }}>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
                 Delete this chat?
               </h3>
             </div>
 
-            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
               This will remove the conversation from your Messages list. The other participant&apos;s chat will not be affected.
             </p>
 
@@ -2855,13 +2855,13 @@ export const MessagesPage: React.FC = () => {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--bg-surface)',
               borderRadius: '16px',
               maxWidth: '420px',
               width: '100%',
               padding: '1.5rem',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-              border: '1px solid #e2e8f0'
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+              border: '1px solid var(--border-subtle)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>
@@ -2879,12 +2879,12 @@ export const MessagesPage: React.FC = () => {
               >
                 <Ban size={20} />
               </div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#1e293b', margin: 0 }}>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
                 Block {otherUserName}?
               </h3>
             </div>
 
-            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
               They will not be able to send you new messages, and you will not be able to send messages to them. All existing messages and this conversation will remain preserved.
             </p>
 
@@ -2937,13 +2937,13 @@ export const MessagesPage: React.FC = () => {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--bg-surface)',
               borderRadius: '16px',
               maxWidth: '420px',
               width: '100%',
               padding: '1.5rem',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-              border: '1px solid #e2e8f0'
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+              border: '1px solid var(--border-subtle)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>
@@ -2961,12 +2961,12 @@ export const MessagesPage: React.FC = () => {
               >
                 <UserCheck size={20} />
               </div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#1e293b', margin: 0 }}>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
                 Unblock {otherUserName}?
               </h3>
             </div>
 
-            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
               You and {otherUserName} will be able to send each other messages again.
             </p>
 
@@ -3019,13 +3019,13 @@ export const MessagesPage: React.FC = () => {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--bg-surface)',
               borderRadius: '16px',
               maxWidth: '460px',
               width: '100%',
               padding: '1.5rem',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-              border: '1px solid #e2e8f0'
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+              border: '1px solid var(--border-subtle)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.5rem' }}>
@@ -3044,10 +3044,10 @@ export const MessagesPage: React.FC = () => {
                 <Flag size={20} />
               </div>
               <div>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#1e293b', margin: 0 }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
                   Report {otherUserName}
                 </h3>
-                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                   Help keep our campus marketplace safe and trusted
                 </span>
               </div>
@@ -3055,7 +3055,7 @@ export const MessagesPage: React.FC = () => {
 
             <form onSubmit={handleReportUser} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: '#334155', marginBottom: '0.4rem' }}>
+                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.4rem' }}>
                   Reason for report *
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -3068,11 +3068,11 @@ export const MessagesPage: React.FC = () => {
                         gap: '8px',
                         padding: '8px 12px',
                         borderRadius: '8px',
-                        border: reportReason === reason ? '1px solid var(--primary)' : '1px solid #e2e8f0',
-                        backgroundColor: reportReason === reason ? '#eff6ff' : '#f8fafc',
+                        border: reportReason === reason ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
+                        backgroundColor: reportReason === reason ? 'var(--primary-light)' : 'var(--bg-muted)',
                         cursor: 'pointer',
                         fontSize: '0.8125rem',
-                        color: reportReason === reason ? 'var(--primary)' : '#334155',
+                        color: reportReason === reason ? 'var(--primary)' : 'var(--text-primary)',
                         fontWeight: reportReason === reason ? 600 : 400
                       }}
                     >
@@ -3091,7 +3091,7 @@ export const MessagesPage: React.FC = () => {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: '#334155', marginBottom: '0.4rem' }}>
+                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.4rem' }}>
                   Additional details (optional)
                 </label>
                 <textarea
@@ -3103,7 +3103,9 @@ export const MessagesPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 12px',
                     borderRadius: '8px',
-                    border: '1px solid #cbd5e1',
+                    border: '1px solid var(--border-subtle)',
+                    backgroundColor: 'var(--bg-muted)',
+                    color: 'var(--text-primary)',
                     fontSize: '0.8125rem',
                     resize: 'vertical',
                     boxSizing: 'border-box',
@@ -3112,7 +3114,7 @@ export const MessagesPage: React.FC = () => {
                 />
               </div>
 
-              <p style={{ fontSize: '0.75rem', color: '#64748b', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.4 }}>
                 Existing messages and chat evidence will be preserved for review by campus administrators.
               </p>
 

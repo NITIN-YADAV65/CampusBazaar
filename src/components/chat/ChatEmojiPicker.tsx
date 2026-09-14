@@ -263,10 +263,10 @@ export const ChatEmojiPicker: React.FC<ChatEmojiPickerProps> = ({ isOpen, onClos
         width: '320px',
         maxWidth: 'calc(100vw - 32px)',
         height: '350px',
-        backgroundColor: '#ffffff',
+        backgroundColor: 'var(--bg-surface)',
         borderRadius: '16px',
-        boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.05)',
-        border: '1px solid var(--border-subtle, #e2e8f0)',
+        boxShadow: 'var(--shadow-xl)',
+        border: '1px solid var(--border-subtle)',
         display: 'flex',
         flexDirection: 'column',
         zIndex: 50,
@@ -275,19 +275,19 @@ export const ChatEmojiPicker: React.FC<ChatEmojiPickerProps> = ({ isOpen, onClos
       }}
     >
       {/* Header & Search */}
-      <div style={{ padding: '10px 12px', borderBottom: '1px solid #f1f5f9' }}>
+      <div style={{ padding: '10px 12px', borderBottom: '1px solid var(--border-subtle)' }}>
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: '#f8fafc',
+            backgroundColor: 'var(--bg-muted)',
             borderRadius: '10px',
             padding: '6px 10px',
-            border: '1px solid #e2e8f0',
+            border: '1px solid var(--border-subtle)',
             gap: '6px'
           }}
         >
-          <Search size={15} color="#94a3b8" />
+          <Search size={15} color="var(--text-muted)" />
           <input
             ref={searchInputRef}
             type="text"
@@ -300,7 +300,7 @@ export const ChatEmojiPicker: React.FC<ChatEmojiPickerProps> = ({ isOpen, onClos
               backgroundColor: 'transparent',
               fontSize: '0.8125rem',
               width: '100%',
-              color: '#1e293b'
+              color: 'var(--text-primary)'
             }}
           />
           {searchQuery && (
@@ -313,7 +313,7 @@ export const ChatEmojiPicker: React.FC<ChatEmojiPickerProps> = ({ isOpen, onClos
                 cursor: 'pointer',
                 padding: '2px',
                 display: 'flex',
-                color: '#94a3b8'
+                color: 'var(--text-muted)'
               }}
             >
               <X size={14} />
@@ -327,8 +327,8 @@ export const ChatEmojiPicker: React.FC<ChatEmojiPickerProps> = ({ isOpen, onClos
         <div
           style={{
             display: 'flex',
-            borderBottom: '1px solid #f1f5f9',
-            backgroundColor: '#fafbfc',
+            borderBottom: '1px solid var(--border-subtle)',
+            backgroundColor: 'var(--bg-subtle)',
             padding: '4px 8px',
             gap: '4px'
           }}
@@ -346,8 +346,8 @@ export const ChatEmojiPicker: React.FC<ChatEmojiPickerProps> = ({ isOpen, onClos
                 borderRadius: '8px',
                 cursor: 'pointer',
                 fontSize: '1.1rem',
-                backgroundColor: activeTab === cat.id ? '#ffffff' : 'transparent',
-                boxShadow: activeTab === cat.id ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                backgroundColor: activeTab === cat.id ? 'var(--bg-surface)' : 'transparent',
+                boxShadow: activeTab === cat.id ? 'var(--shadow-sm)' : 'none',
                 transition: 'all 0.15s ease',
                 display: 'flex',
                 alignItems: 'center',
@@ -378,7 +378,7 @@ export const ChatEmojiPicker: React.FC<ChatEmojiPickerProps> = ({ isOpen, onClos
               gridColumn: '1 / -1',
               textAlign: 'center',
               padding: '2rem 1rem',
-              color: '#94a3b8',
+              color: 'var(--text-muted)',
               fontSize: '0.8125rem'
             }}
           >
@@ -408,7 +408,7 @@ export const ChatEmojiPicker: React.FC<ChatEmojiPickerProps> = ({ isOpen, onClos
                 userSelect: 'none'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#f1f5f9';
+                e.currentTarget.style.backgroundColor = 'var(--bg-muted)';
                 e.currentTarget.style.transform = 'scale(1.22)';
               }}
               onMouseLeave={(e) => {

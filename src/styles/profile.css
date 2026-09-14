@@ -153,7 +153,7 @@
 .profile-name {
   font-size: 1.625rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-primary, #0f172a);
   letter-spacing: -0.02em;
   margin: 0;
 }
@@ -191,7 +191,7 @@
   flex-wrap: wrap;
   gap: 1.25rem;
   font-size: 0.845rem;
-  color: #64748b;
+  color: var(--text-secondary, #64748b);
   margin-bottom: 0.5rem;
 }
 
@@ -202,12 +202,12 @@
 }
 
 .profile-meta-item svg {
-  color: #64748b;
+  color: var(--text-secondary, #64748b);
 }
 
 .profile-student-tags {
   font-size: 0.8125rem;
-  color: #94a3b8;
+  color: var(--text-muted, #94a3b8);
   font-weight: 500;
 }
 
@@ -217,9 +217,9 @@
   gap: 0.5rem;
   padding: 0.55rem 1.15rem;
   border-radius: 10px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  color: #1e293b;
+  border: 1px solid var(--border-strong, #cbd5e1);
+  background: var(--bg-surface, #ffffff);
+  color: var(--text-primary, #1e293b);
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
@@ -229,8 +229,8 @@
 }
 
 .profile-edit-btn:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
+  background: var(--bg-muted, #f8fafc);
+  border-color: var(--primary, #94a3b8);
   transform: translateY(-1px);
 }
 
@@ -251,8 +251,8 @@
 }
 
 .profile-stat-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
   border-radius: 16px;
   padding: 1.15rem 1.25rem;
   display: flex;
@@ -265,7 +265,7 @@
 .profile-stat-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px -1px rgba(15, 23, 42, 0.08);
-  border-color: #cbd5e1;
+  border-color: var(--border-strong, #cbd5e1);
 }
 
 .profile-stat-icon-box {
@@ -301,14 +301,14 @@
 .profile-stat-value {
   font-size: 1.375rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-primary, #0f172a);
   line-height: 1.2;
 }
 
 .profile-stat-label {
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #64748b;
+  color: var(--text-secondary, #64748b);
   margin-top: 0.1rem;
 }
 
@@ -330,8 +330,8 @@
 }
 
 .profile-side-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
   border-radius: 16px;
   padding: 1.35rem 1.5rem;
   box-shadow: 0 2px 8px -1px rgba(15, 23, 42, 0.04);
@@ -347,14 +347,14 @@
 .profile-card-title {
   font-size: 1.05rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary, #0f172a);
   margin: 0;
 }
 
 .profile-card-edit-icon {
   background: none;
   border: none;
-  color: #94a3b8;
+  color: var(--text-muted, #94a3b8);
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
@@ -365,13 +365,13 @@
 }
 
 .profile-card-edit-icon:hover {
-  color: #059669;
+  color: var(--primary, #059669);
 }
 
 .profile-bio-text {
   font-size: 0.875rem;
   line-height: 1.55;
-  color: #475569;
+  color: var(--text-secondary, #475569);
   margin-bottom: 1.25rem;
 }
 
@@ -379,7 +379,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--border-subtle, #f1f5f9);
   padding-top: 1rem;
 }
 
@@ -390,7 +390,7 @@
 }
 
 .profile-detail-icon {
-  color: #64748b;
+  color: var(--text-secondary, #64748b);
   margin-top: 2px;
   flex-shrink: 0;
 }
@@ -402,7 +402,7 @@
 
 .profile-detail-label {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: var(--text-muted, #94a3b8);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -411,13 +411,13 @@
 .profile-detail-value {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--text-primary, #1e293b);
 }
 
 /* Contact Preferences Card */
 .profile-pref-subtitle {
   font-size: 0.8125rem;
-  color: #64748b;
+  color: var(--text-secondary, #64748b);
   margin-bottom: 1rem;
 }
 
@@ -434,7 +434,7 @@
   gap: 0.5rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #334155;
+  color: var(--text-primary, #334155);
 }
 
 /* Toggle Switch */
@@ -485,8 +485,8 @@
    4. MARKETPLACE ACTIVITY TABS & LISTINGS
    ============================================================ */
 .profile-listings-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
   border-radius: 16px;
   padding: 1.25rem 1.5rem;
   box-shadow: 0 2px 8px -1px rgba(15, 23, 42, 0.04);
@@ -496,7 +496,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1.5px solid #f1f5f9;
+  border-bottom: 1.5px solid var(--border-subtle, #f1f5f9);
   margin-bottom: 1.5rem;
 }
 
@@ -511,18 +511,18 @@
   padding: 0.75rem 0.25rem;
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #64748b;
+  color: var(--text-secondary, #64748b);
   cursor: pointer;
   position: relative;
   transition: color 0.15s ease;
 }
 
 .profile-tab-btn:hover {
-  color: #0f172a;
+  color: var(--text-primary, #0f172a);
 }
 
 .profile-tab-btn.active {
-  color: #059669;
+  color: var(--primary, #059669);
   font-weight: 700;
 }
 
@@ -533,14 +533,14 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: #059669;
+  background-color: var(--primary, #059669);
   border-radius: 3px 3px 0 0;
 }
 
 .profile-view-all-link {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #059669;
+  color: var(--primary, #059669);
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -549,7 +549,7 @@
 
 .profile-view-all-link:hover {
   gap: 0.4rem;
-  color: #047857;
+  color: var(--primary-hover, #047857);
 }
 
 /* Listing Cards Grid */
@@ -560,8 +560,8 @@
 }
 
 .profile-listing-item {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -574,12 +574,12 @@
 .profile-listing-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px -2px rgba(15, 23, 42, 0.08);
-  border-color: #cbd5e1;
+  border-color: var(--border-strong, #cbd5e1);
 }
 
 .profile-listing-img-container {
   height: 140px;
-  background: #f1f5f9;
+  background: var(--bg-muted, #f1f5f9);
   position: relative;
   overflow: hidden;
 }
@@ -612,9 +612,9 @@
 }
 
 .profile-listing-status-badge.sold {
-  background: #f1f5f9;
-  color: #64748b;
-  border-color: #cbd5e1;
+  background: var(--bg-muted, #f1f5f9);
+  color: var(--text-secondary, #64748b);
+  border-color: var(--border-subtle, #cbd5e1);
 }
 
 .profile-listing-content {
@@ -635,7 +635,7 @@
 .profile-listing-title {
   font-size: 0.875rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary, #0f172a);
   margin: 0;
   line-height: 1.35;
   white-space: nowrap;
@@ -647,7 +647,7 @@
 .profile-listing-price {
   font-size: 1.05rem;
   font-weight: 800;
-  color: #059669;
+  color: var(--primary, #059669);
   margin-bottom: 0.45rem;
 }
 
@@ -656,7 +656,7 @@
   align-items: center;
   gap: 0.35rem;
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--text-secondary, #64748b);
   margin-bottom: 0.55rem;
 }
 
@@ -664,11 +664,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid #f8fafc;
+  border-top: 1px solid var(--border-subtle, #f8fafc);
   padding-top: 0.5rem;
   margin-top: auto;
   font-size: 0.725rem;
-  color: #94a3b8;
+  color: var(--text-muted, #94a3b8);
 }
 
 .profile-listing-location {
@@ -693,7 +693,7 @@
 .profile-listing-menu-btn {
   background: none;
   border: none;
-  color: #94a3b8;
+  color: var(--text-muted, #94a3b8);
   cursor: pointer;
   padding: 2px 4px;
   border-radius: 4px;
@@ -704,16 +704,16 @@
 }
 
 .profile-listing-menu-btn:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+  background: var(--bg-muted, #f1f5f9);
+  color: var(--text-primary, #0f172a);
 }
 
 .profile-listing-menu-dropdown {
   position: absolute;
   top: 36px;
   right: 8px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
   border-radius: 8px;
   box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.12);
   z-index: 20;
@@ -731,15 +731,15 @@
   border: none;
   font-size: 0.785rem;
   font-weight: 500;
-  color: #334155;
+  color: var(--text-primary, #334155);
   cursor: pointer;
   text-align: left;
   transition: background 0.15s ease;
 }
 
 .profile-listing-menu-action:hover {
-  background: #f8fafc;
-  color: #059669;
+  background: var(--bg-muted, #f8fafc);
+  color: var(--primary, #059669);
 }
 
 .profile-listing-menu-action.danger:hover {
@@ -770,7 +770,7 @@
 }
 
 .profile-modal-card {
-  background: #ffffff;
+  background: var(--bg-surface, #ffffff);
   border-radius: 20px;
   box-shadow: 0 24px 48px -12px rgba(15, 23, 42, 0.25);
   width: 100%;
@@ -778,7 +778,7 @@
   max-height: calc(100vh - 3rem);
   display: flex;
   flex-direction: column;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-subtle, #e2e8f0);
   position: relative;
   margin: auto;
   animation: modalScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -800,21 +800,21 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.15rem 1.5rem;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-subtle, #f1f5f9);
   flex-shrink: 0;
 }
 
 .profile-modal-title {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary, #0f172a);
   margin: 0;
 }
 
 .profile-modal-close-btn {
   background: none;
   border: none;
-  color: #94a3b8;
+  color: var(--text-muted, #94a3b8);
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
@@ -825,8 +825,8 @@
 }
 
 .profile-modal-close-btn:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+  background: var(--bg-muted, #f1f5f9);
+  color: var(--text-primary, #0f172a);
 }
 
 .profile-modal-body {
@@ -855,8 +855,8 @@
   height: 96px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #e2e8f0;
-  background-color: #f1f5f9;
+  border: 3px solid var(--border-subtle, #e2e8f0);
+  background-color: var(--bg-muted, #f1f5f9);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -878,13 +878,13 @@
 
 .profile-modal-avatar-hint {
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--text-secondary, #64748b);
   margin-top: 0.5rem;
   cursor: pointer;
 }
 
 .profile-modal-avatar-hint:hover {
-  color: #059669;
+  color: var(--primary, #059669);
   text-decoration: underline;
 }
 
@@ -896,7 +896,7 @@
   display: block;
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #334155;
+  color: var(--text-primary, #334155);
   margin-bottom: 0.4rem;
 }
 
@@ -905,17 +905,17 @@
   width: 100%;
   padding: 0.65rem 0.85rem;
   border-radius: 8px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-strong, #cbd5e1);
   font-size: 0.875rem;
-  color: #0f172a;
-  background: #ffffff;
+  color: var(--text-primary, #0f172a);
+  background: var(--bg-surface, #ffffff);
   transition: all 0.15s ease;
 }
 
 .profile-form-input:focus,
 .profile-form-textarea:focus {
   outline: none;
-  border-color: #059669;
+  border-color: var(--primary, #059669);
   box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
 }
 
@@ -930,9 +930,9 @@
 .profile-modal-cancel-btn {
   padding: 0.65rem 1.25rem;
   border-radius: 8px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  color: #475569;
+  border: 1px solid var(--border-strong, #cbd5e1);
+  background: var(--bg-surface, #ffffff);
+  color: var(--text-secondary, #475569);
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
@@ -940,8 +940,8 @@
 }
 
 .profile-modal-cancel-btn:hover {
-  background: #f8fafc;
-  color: #0f172a;
+  background: var(--bg-muted, #f8fafc);
+  color: var(--text-primary, #0f172a);
 }
 
 .profile-modal-save-btn {
@@ -1057,3 +1057,164 @@
     gap: 0.35rem;
   }
 }
+
+/* ============================================================
+   7. DARK THEME ADAPTATIONS
+   ============================================================ */
+:root[data-theme='dark'] .profile-hero-card,
+.dark .profile-hero-card,
+:root[data-theme='dark'] .profile-stat-card,
+.dark .profile-stat-card,
+:root[data-theme='dark'] .profile-side-card,
+.dark .profile-side-card,
+:root[data-theme='dark'] .profile-listings-card,
+.dark .profile-listings-card,
+:root[data-theme='dark'] .profile-listing-item,
+.dark .profile-listing-item {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+}
+
+:root[data-theme='dark'] .profile-avatar-img,
+.dark .profile-avatar-img {
+  border-color: var(--bg-surface);
+  background-color: var(--bg-muted);
+}
+
+:root[data-theme='dark'] .profile-verified-badge,
+.dark .profile-verified-badge {
+  background-color: rgba(16, 185, 129, 0.16);
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.35);
+}
+
+:root[data-theme='dark'] .profile-unverified-badge,
+.dark .profile-unverified-badge {
+  background-color: rgba(245, 158, 11, 0.16);
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.35);
+}
+
+:root[data-theme='dark'] .profile-stat-icon-green,
+.dark .profile-stat-icon-green {
+  background-color: rgba(16, 185, 129, 0.16);
+  color: #34d399;
+}
+
+:root[data-theme='dark'] .profile-stat-icon-teal,
+.dark .profile-stat-icon-teal {
+  background-color: rgba(20, 184, 166, 0.16);
+  color: #2dd4bf;
+}
+
+:root[data-theme='dark'] .profile-stat-icon-amber,
+.dark .profile-stat-icon-amber {
+  background-color: rgba(245, 158, 11, 0.16);
+  color: #fbbf24;
+}
+
+:root[data-theme='dark'] .profile-stat-icon-pink,
+.dark .profile-stat-icon-pink {
+  background-color: rgba(239, 68, 68, 0.16);
+  color: #f87171;
+}
+
+:root[data-theme='dark'] .profile-listing-status-badge,
+.dark .profile-listing-status-badge {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.35);
+}
+
+:root[data-theme='dark'] .profile-listing-status-badge.sold,
+.dark .profile-listing-status-badge.sold {
+  background: var(--bg-muted);
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+}
+
+:root[data-theme='dark'] .profile-listing-img-container,
+.dark .profile-listing-img-container {
+  background: var(--bg-muted);
+}
+
+:root[data-theme='dark'] .profile-listing-menu-dropdown,
+.dark .profile-listing-menu-dropdown {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-subtle);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+:root[data-theme='dark'] .profile-listing-menu-action,
+.dark .profile-listing-menu-action {
+  color: var(--text-primary);
+}
+
+:root[data-theme='dark'] .profile-listing-menu-action:hover,
+.dark .profile-listing-menu-action:hover {
+  background: var(--bg-muted);
+  color: var(--primary);
+}
+
+:root[data-theme='dark'] .profile-toggle-slider,
+.dark .profile-toggle-slider {
+  background-color: #334155;
+}
+
+:root[data-theme='dark'] .profile-modal-card,
+.dark .profile-modal-card {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.7);
+}
+
+:root[data-theme='dark'] .profile-form-input,
+.dark .profile-form-input,
+:root[data-theme='dark'] .profile-form-textarea,
+.dark .profile-form-textarea {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+:root[data-theme='dark'] .profile-form-input:focus,
+.dark .profile-form-input:focus,
+:root[data-theme='dark'] .profile-form-textarea:focus,
+.dark .profile-form-textarea:focus {
+  background: var(--bg-surface);
+  border-color: var(--primary);
+}
+
+:root[data-theme='dark'] .profile-modal-cancel-btn,
+.dark .profile-modal-cancel-btn {
+  background: var(--bg-muted);
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+}
+
+:root[data-theme='dark'] .profile-modal-cancel-btn:hover,
+.dark .profile-modal-cancel-btn:hover {
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+}
+
+:root[data-theme='dark'] .profile-edit-btn,
+.dark .profile-edit-btn {
+  background: var(--bg-muted);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+:root[data-theme='dark'] .profile-edit-btn:hover,
+.dark .profile-edit-btn:hover {
+  background: var(--bg-surface-elevated);
+  border-color: var(--primary);
+}
+
+:root[data-theme='dark'] .profile-modal-avatar-img,
+.dark .profile-modal-avatar-img {
+  border-color: var(--border-subtle);
+  background-color: var(--bg-muted);
+}
+

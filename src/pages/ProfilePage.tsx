@@ -41,17 +41,17 @@ import '../styles/profile.css';
 // Helper to map listing category to clean Lucide icon matching the design reference
 const getCategoryIcon = (categorySlugOrId?: string) => {
   const cat = (categorySlugOrId || '').toLowerCase();
-  if (cat.includes('laptop')) return <Laptop size={14} color="#64748b" />;
-  if (cat.includes('book')) return <BookOpen size={14} color="#64748b" />;
-  if (cat.includes('cycle') || cat.includes('bike')) return <Bike size={14} color="#64748b" />;
-  if (cat.includes('phone') || cat.includes('mobile')) return <Smartphone size={14} color="#64748b" />;
-  if (cat.includes('furniture') || cat.includes('chair')) return <Armchair size={14} color="#64748b" />;
-  if (cat.includes('gaming') || cat.includes('game') || cat.includes('ps5')) return <Gamepad2 size={14} color="#64748b" />;
-  if (cat.includes('fashion') || cat.includes('cloth')) return <Shirt size={14} color="#64748b" />;
-  if (cat.includes('sport')) return <Trophy size={14} color="#64748b" />;
-  if (cat.includes('audio') || cat.includes('ear') || cat.includes('head')) return <Headphones size={14} color="#64748b" />;
-  if (cat.includes('vehicle') || cat.includes('car')) return <Car size={14} color="#64748b" />;
-  return <Package size={14} color="#64748b" />;
+  if (cat.includes('laptop')) return <Laptop size={14} color="currentColor" />;
+  if (cat.includes('book')) return <BookOpen size={14} color="currentColor" />;
+  if (cat.includes('cycle') || cat.includes('bike')) return <Bike size={14} color="currentColor" />;
+  if (cat.includes('phone') || cat.includes('mobile')) return <Smartphone size={14} color="currentColor" />;
+  if (cat.includes('furniture') || cat.includes('chair')) return <Armchair size={14} color="currentColor" />;
+  if (cat.includes('gaming') || cat.includes('game') || cat.includes('ps5')) return <Gamepad2 size={14} color="currentColor" />;
+  if (cat.includes('fashion') || cat.includes('cloth')) return <Shirt size={14} color="currentColor" />;
+  if (cat.includes('sport')) return <Trophy size={14} color="currentColor" />;
+  if (cat.includes('audio') || cat.includes('ear') || cat.includes('head')) return <Headphones size={14} color="currentColor" />;
+  if (cat.includes('vehicle') || cat.includes('car')) return <Car size={14} color="currentColor" />;
+  return <Package size={14} color="currentColor" />;
 };
 
 // Helper functions to prevent example/mock values from appearing as actual values
@@ -771,10 +771,10 @@ export const ProfilePage: React.FC = () => {
               ) : (
                 <div style={{ textAlign: 'center', padding: '3.5rem 1rem' }}>
                   <Package size={44} color="#94a3b8" style={{ margin: '0 auto 0.75rem auto' }} />
-                  <h4 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.35rem' }}>
+                  <h4 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.35rem' }}>
                     No Active Listings
                   </h4>
-                  <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
                     Have books, electronics, or campus gear you no longer need?
                   </p>
                   <Link to="/sell" className="btn btn-primary btn-sm">
@@ -824,7 +824,7 @@ export const ProfilePage: React.FC = () => {
                           <h4 className="profile-listing-title" title={listing.title}>
                             {listing.title}
                           </h4>
-                          <div className="profile-listing-price" style={{ color: '#64748b' }}>
+                          <div className="profile-listing-price" style={{ color: 'var(--text-muted)' }}>
                             ₹ {listing.price.toLocaleString('en-IN')}
                           </div>
                           <div className="profile-listing-meta-row">
@@ -853,9 +853,9 @@ export const ProfilePage: React.FC = () => {
                   })}
                 </div>
               ) : (
-                <div style={{ textAlign: 'center', padding: '3.5rem 1rem', color: '#64748b' }}>
+                <div style={{ textAlign: 'center', padding: '3.5rem 1rem', color: 'var(--text-secondary)' }}>
                   <ShoppingCart size={40} color="#94a3b8" style={{ margin: '0 auto 0.75rem auto' }} />
-                  <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>
+                  <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
                     No Sold Items Yet
                   </h4>
                   <p style={{ fontSize: '0.875rem' }}>
@@ -934,10 +934,10 @@ export const ProfilePage: React.FC = () => {
               ) : (
                 <div style={{ textAlign: 'center', padding: '3.5rem 1rem' }}>
                   <Heart size={40} color="#94a3b8" style={{ margin: '0 auto 0.75rem auto' }} />
-                  <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>
+                  <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
                     No Saved Items
                   </h4>
-                  <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
                     Click the heart icon on any product in the marketplace to save it.
                   </p>
                   <Link to="/search" className="btn btn-outline btn-sm">
