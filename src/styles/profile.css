@@ -20,10 +20,10 @@
 }
 
 .profile-banner {
-  height: 160px;
+  height: clamp(180px, 22vw, 250px);
   position: relative;
   background-size: cover;
-  background-position: center;
+  background-position: center 30%;
   background-repeat: no-repeat;
   display: flex;
   align-items: flex-start;
@@ -1021,11 +1021,9 @@
     grid-template-columns: 1fr;
   }
   .profile-banner {
-    height: 130px;
+    height: clamp(140px, 30vw, 190px);
+    background-position: center 25%;
     padding: 1rem;
-  }
-  .profile-banner-quote {
-    font-size: 1.25rem;
   }
 }
 

@@ -363,18 +363,9 @@ export const ProfilePage: React.FC = () => {
         <div 
           className="profile-banner"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80')`
+            backgroundImage: `url('/Campus_image/profile_banner.jpg')`
           }}
-        >
-          <div className="profile-banner-overlay" />
-          <div className="profile-banner-text">
-            <div className="profile-banner-quote">Same Campus</div>
-            <div className="profile-banner-quote">
-              <span className="profile-banner-quote-sub">More Possibilities</span>
-            </div>
-            <div className="profile-banner-tags">Buy • Sell • Connect</div>
-          </div>
-        </div>
+        />
 
         {/* Hero Bottom Body */}
         <div className="profile-hero-body">
