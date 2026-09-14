@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  ArrowRight, 
   PlusCircle, 
   ShieldCheck, 
   Zap, 
@@ -13,7 +12,8 @@ import {
   Clock, 
   ThumbsUp,
   PackageSearch,
-  MapPin
+  MapPin,
+  Search
 } from 'lucide-react';
 import { useMarketplace } from '../context/MarketplaceContext';
 import { ProductCard } from '../components/product/ProductCard';
@@ -68,8 +68,8 @@ export const HomePage: React.FC = () => {
             <div>
               {/* Eyebrow Header Line */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
-                <span style={{ width: '28px', height: '3px', backgroundColor: '#0d9488', borderRadius: '2px', display: 'inline-block' }} />
-                <span style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.12em', color: '#0f766e', textTransform: 'uppercase' }}>
+                <span style={{ width: '28px', height: '3px', backgroundColor: 'var(--hero-eyebrow)', borderRadius: '2px', display: 'inline-block' }} />
+                <span style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--hero-eyebrow)', textTransform: 'uppercase' }}>
                   WELCOME TO CAMPUSBAZAAR
                 </span>
               </div>
@@ -80,11 +80,11 @@ export const HomePage: React.FC = () => {
                 fontWeight: 800,
                 lineHeight: 1.12,
                 letterSpacing: '-0.03em',
-                color: '#0f172a',
+                color: 'var(--hero-headline)',
                 marginBottom: '1rem'
               }}>
                 Buy. Sell. Connect.<br />
-                <span style={{ color: '#0d9488' }}>Grow Together.</span>
+                <span style={{ color: 'var(--hero-accent)' }}>Grow Together.</span>
               </h1>
 
               {/* Supporting Text */}
@@ -107,20 +107,20 @@ export const HomePage: React.FC = () => {
                 marginBottom: '2rem'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <ShieldCheck size={20} color="#0d9488" style={{ flexShrink: 0 }} />
-                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>Safe & Local</span>
+                  <ShieldCheck size={20} color="var(--hero-trust-icon)" style={{ flexShrink: 0 }} />
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--hero-trust-text)' }}>Safe & Local</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Users size={20} color="#0d9488" style={{ flexShrink: 0 }} />
-                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>Verified Students</span>
+                  <Users size={20} color="var(--hero-trust-icon)" style={{ flexShrink: 0 }} />
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--hero-trust-text)' }}>Verified Students</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Zap size={20} color="#0d9488" style={{ flexShrink: 0 }} />
-                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>Zero Commission</span>
+                  <Zap size={20} color="var(--hero-trust-icon)" style={{ flexShrink: 0 }} />
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--hero-trust-text)' }}>Zero Commission</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <MapPin size={20} color="#0d9488" style={{ flexShrink: 0 }} />
-                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155' }}>On-Campus Only</span>
+                  <MapPin size={20} color="var(--hero-trust-icon)" style={{ flexShrink: 0 }} />
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--hero-trust-text)' }}>On-Campus Only</span>
                 </div>
               </div>
 
@@ -128,58 +128,14 @@ export const HomePage: React.FC = () => {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
                 <Link 
                   to="/search" 
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.6rem',
-                    backgroundColor: '#0d9488',
-                    color: '#ffffff',
-                    padding: '0.85rem 1.85rem',
-                    borderRadius: '9999px',
-                    fontWeight: 700,
-                    fontSize: '0.9375rem',
-                    textDecoration: 'none',
-                    boxShadow: '0 4px 14px rgba(13, 148, 136, 0.28)',
-                    transition: 'all var(--transition-fast)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#0f766e';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(13, 148, 136, 0.38)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#0d9488';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 14px rgba(13, 148, 136, 0.28)';
-                  }}
+                  className="btn-hero-explore"
                 >
+                  <Search size={18} />
                   <span>Explore Items</span>
-                  <ArrowRight size={18} />
                 </Link>
                 <Link 
                   to="/sell" 
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.55rem',
-                    backgroundColor: '#e6f9f3',
-                    color: '#0f766e',
-                    padding: '0.85rem 1.85rem',
-                    borderRadius: '9999px',
-                    fontWeight: 700,
-                    fontSize: '0.9375rem',
-                    textDecoration: 'none',
-                    border: '1.5px solid #ccfbf1',
-                    transition: 'all var(--transition-fast)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#ccfbf1';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#e6f9f3';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
+                  className="btn-hero-sell"
                 >
                   <PlusCircle size={18} />
                   <span>Sell Something</span>
@@ -193,8 +149,9 @@ export const HomePage: React.FC = () => {
                 position: 'relative',
                 borderRadius: '24px',
                 overflow: 'hidden',
-                boxShadow: '0 20px 45px -15px rgba(15, 23, 42, 0.16)',
-                border: '1px solid rgba(226, 232, 240, 0.9)'
+                boxShadow: 'var(--hero-img-shadow)',
+                border: 'var(--hero-img-border)',
+                transition: 'all var(--transition-normal)'
               }}>
                 <img 
                   src="/Campus_image/campus_home_image.jpeg" 
@@ -271,7 +228,7 @@ export const HomePage: React.FC = () => {
           <div style={{
             textAlign: 'center',
             padding: '3rem 1.5rem',
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--bg-surface)',
             borderRadius: 'var(--radius-lg)',
             border: '1px dashed var(--border-strong)',
             color: 'var(--text-secondary)'
@@ -332,7 +289,7 @@ export const HomePage: React.FC = () => {
           <div style={{
             textAlign: 'center',
             padding: '3rem 1.5rem',
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--bg-surface)',
             borderRadius: 'var(--radius-lg)',
             border: '1px dashed var(--border-strong)',
             color: 'var(--text-secondary)'
@@ -393,7 +350,7 @@ export const HomePage: React.FC = () => {
           <div style={{
             textAlign: 'center',
             padding: '3rem 1.5rem',
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--bg-surface)',
             borderRadius: 'var(--radius-lg)',
             border: '1px dashed var(--border-strong)',
             color: 'var(--text-secondary)'
@@ -414,7 +371,7 @@ export const HomePage: React.FC = () => {
 
       {/* 6. HOW CAMPUSBAZAAR WORKS */}
       <section style={{
-        backgroundColor: '#ffffff',
+        backgroundColor: 'var(--bg-surface)',
         borderTop: '1px solid var(--border-subtle)',
         borderBottom: '1px solid var(--border-subtle)',
         paddingTop: 'clamp(2.5rem, 5vw, 4.5rem)',

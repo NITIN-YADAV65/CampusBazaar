@@ -17,7 +17,7 @@ export const MobileNav: React.FC = () => {
         maxWidth: '100vw',
         height: 'calc(var(--mobile-nav-height) + var(--safe-bottom))',
         paddingBottom: 'var(--safe-bottom)',
-        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        backgroundColor: 'var(--bg-mobile-nav)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
         borderTop: '1px solid var(--border-subtle)',
@@ -96,7 +96,7 @@ export const MobileNav: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
           boxShadow: '0 4px 12px rgba(13, 148, 136, 0.35)',
-          border: '2.5px solid #ffffff',
+          border: '2.5px solid var(--bg-surface)',
           flexShrink: 0
         }}>
           <PlusCircle size={24} />

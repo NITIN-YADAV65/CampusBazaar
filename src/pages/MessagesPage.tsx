@@ -1517,7 +1517,7 @@ export const MessagesPage: React.FC = () => {
             style={{
               padding: '1.25rem',
               borderBottom: '1px solid var(--border-subtle)',
-              backgroundColor: '#ffffff'
+              backgroundColor: 'var(--bg-surface)'
             }}
           >
             <h2 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
@@ -1726,7 +1726,7 @@ export const MessagesPage: React.FC = () => {
         {/* Right Col: Active Chat Window */}
         <div
           className={`chat-main ${!activeConversationId ? 'chat-main-hidden-mobile' : ''}`}
-          style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: '#ffffff', overflow: 'hidden' }}
+          style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: 'var(--bg-surface)', overflow: 'hidden' }}
         >
           {activeConv ? (
             <>
@@ -1734,7 +1734,7 @@ export const MessagesPage: React.FC = () => {
               <div style={{
                 padding: '0.75rem 1.25rem',
                 borderBottom: '1px solid var(--border-subtle)',
-                backgroundColor: '#f8fafc',
+                backgroundColor: 'var(--bg-subtle)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -2310,7 +2310,7 @@ export const MessagesPage: React.FC = () => {
                     gap: '12px'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
                     <img
                       src={imagePreviewUrl}
                       alt="Selected preview"
@@ -2319,15 +2319,15 @@ export const MessagesPage: React.FC = () => {
                         height: '48px',
                         borderRadius: '8px',
                         objectFit: 'cover',
-                        border: '1px solid #e2e8f0'
+                        border: '1px solid #e2e8f0',
+                        flexShrink: 0
                       }}
                     />
-                    <div>
+                    <div style={{ minWidth: 0, flex: 1 }}>
                       <p style={{
                         fontSize: '0.8125rem',
                         fontWeight: 600,
                         color: 'var(--text-primary)',
-                        maxWidth: '220px',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
@@ -2355,7 +2355,8 @@ export const MessagesPage: React.FC = () => {
                       alignItems: 'center',
                       justifyContent: 'center',
                       cursor: 'pointer',
-                      color: '#dc2626'
+                      color: '#dc2626',
+                      flexShrink: 0
                     }}
                   >
                     <X size={16} />
@@ -2423,7 +2424,7 @@ export const MessagesPage: React.FC = () => {
               )}
 
               {/* Chat Input Bar */}
-              <div style={{ position: 'relative' }}>
+              <div className="chat-composer-wrapper" style={{ position: 'relative', width: '100%', boxSizing: 'border-box' }}>
                 {isBlockedByMe ? (
                   <div
                     style={{
@@ -2476,12 +2477,11 @@ export const MessagesPage: React.FC = () => {
 
                     <form
                       onSubmit={handleSendMessage}
+                      className="chat-composer-form"
                       style={{
-                        padding: '0.875rem 1rem',
                         borderTop: '1px solid var(--border-subtle)',
-                        backgroundColor: '#ffffff',
+                        backgroundColor: 'var(--bg-surface)',
                         display: 'flex',
-                        gap: '0.5rem',
                         alignItems: 'center'
                       }}
                     >
@@ -2500,10 +2500,10 @@ export const MessagesPage: React.FC = () => {
                         onClick={() => fileInputRef.current?.click()}
                         disabled={isSending || Boolean(editingMessage)}
                         title={editingMessage ? 'Cannot attach photos while editing' : 'Attach photo'}
+                        className="chat-composer-btn"
                         style={{
                           background: 'none',
                           border: 'none',
-                          padding: '8px',
                           borderRadius: '50%',
                           cursor: editingMessage ? 'not-allowed' : 'pointer',
                           color: selectedImage ? 'var(--primary)' : '#64748b',
@@ -2523,10 +2523,10 @@ export const MessagesPage: React.FC = () => {
                         type="button"
                         onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                         title="Insert emoji"
+                        className="chat-composer-btn"
                         style={{
                           background: showEmojiPicker ? '#e0e7ff' : 'none',
                           border: 'none',
-                          padding: '8px',
                           borderRadius: '50%',
                           cursor: 'pointer',
                           color: showEmojiPicker ? 'var(--primary)' : '#64748b',
@@ -2550,12 +2550,10 @@ export const MessagesPage: React.FC = () => {
                           value={editText}
                           onChange={(e) => setEditText(e.target.value)}
                           disabled={isSending}
+                          className="chat-composer-input"
                           style={{
-                            flex: 1,
-                            padding: '0.75rem 1.25rem',
                             borderRadius: 'var(--radius-full)',
                             border: '1px solid #93c5fd',
-                            fontSize: '0.9375rem',
                             outline: 'none',
                             backgroundColor: '#eff6ff',
                             color: 'var(--text-primary)'
@@ -2569,12 +2567,10 @@ export const MessagesPage: React.FC = () => {
                           value={inputText}
                           onChange={(e) => setInputText(e.target.value)}
                           disabled={isSending}
+                          className="chat-composer-input"
                           style={{
-                            flex: 1,
-                            padding: '0.75rem 1.25rem',
                             borderRadius: 'var(--radius-full)',
                             border: '1px solid var(--border-strong)',
-                            fontSize: '0.9375rem',
                             outline: 'none',
                             backgroundColor: 'var(--bg-muted)'
                           }}
@@ -2597,13 +2593,13 @@ export const MessagesPage: React.FC = () => {
                             ? !editText.trim() && !editingMessage.image_url
                             : (!inputText.trim() && !selectedImage) || isSending
                         }
-                        className="btn btn-primary"
+                        className="btn btn-primary chat-composer-send-btn"
                         style={{
                           borderRadius: 'var(--radius-full)',
-                          width: '44px',
-                          height: '44px',
                           padding: 0,
-                          flexShrink: 0
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
                         }}
                         title={editingMessage ? 'Save changes' : 'Send message'}
                       >

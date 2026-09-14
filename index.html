@@ -14,6 +14,23 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="CampusBazaar" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('cb_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.classList.add('dark');
+            var metaTheme = document.querySelector('meta[name="theme-color"]');
+            if (metaTheme) metaTheme.setAttribute('content', '#041614');
+          } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

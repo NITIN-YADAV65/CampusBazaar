@@ -12,10 +12,13 @@ import {
   ChevronDown,
   Sparkles,
   Menu,
-  X
+  X,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useMarketplace } from '../../context/MarketplaceContext';
+import { useTheme } from '../../context/ThemeContext';
 import { isSupabaseConfigured } from '../../lib/supabase';
 import { getSafeAvatarUrl, DEFAULT_AVATAR_URL } from '../../lib/avatar';
 import { NotificationBell } from '../notifications/NotificationBell';
@@ -23,6 +26,7 @@ import { NotificationBell } from '../notifications/NotificationBell';
 export const Navbar: React.FC = () => {
   const { user, profile, signOut, isAdmin } = useAuth();
   const { favorites, unreadMessagesCount } = useMarketplace();
+  const { isDark, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -81,7 +85,7 @@ export const Navbar: React.FC = () => {
         position: 'sticky',
         top: 0,
         zIndex: 1000,
-        backgroundColor: 'rgba(255, 255, 255, 0.96)',
+        backgroundColor: 'var(--bg-header)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid var(--border-subtle)',
         boxShadow: 'var(--shadow-sm)'
@@ -113,7 +117,7 @@ export const Navbar: React.FC = () => {
                 fontSize: '1.25rem',
                 fontWeight: 800,
                 letterSpacing: '-0.03em',
-                color: '#0f172a',
+                color: 'var(--text-primary)',
                 display: 'block',
                 lineHeight: 1.1
               }}>
@@ -123,7 +127,7 @@ export const Navbar: React.FC = () => {
                 fontSize: '0.6875rem',
                 fontWeight: 700,
                 letterSpacing: '0.08em',
-                color: '#64748b',
+                color: 'var(--text-muted)',
                 textTransform: 'uppercase'
               }}>
                 LPU Marketplace
@@ -168,7 +172,7 @@ export const Navbar: React.FC = () => {
                 transition: 'all var(--transition-fast)'
               }}
               onFocus={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.backgroundColor = 'var(--bg-surface)';
                 e.currentTarget.style.borderColor = 'var(--primary)';
                 e.currentTarget.style.boxShadow = '0 0 0 3px var(--primary-glow)';
               }}
@@ -252,6 +256,23 @@ export const Navbar: React.FC = () => {
                 </span>
               )}
             </Link>
+
+            {/* Light / Dark Mode Toggle (Desktop) */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="btn btn-ghost btn-icon"
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: isDark ? '#fbbf24' : 'var(--text-secondary)'
+              }}
+            >
+              {isDark ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
 
             {/* Sell Something CTA */}
             <Link to="/sell" className="btn btn-sell">
@@ -451,7 +472,7 @@ export const Navbar: React.FC = () => {
         {mobileSearchOpen && (
           <div className="mobile-search-row" style={{
             padding: '0.65rem 1rem',
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--bg-surface)',
             borderTop: '1px solid var(--border-subtle)',
             animation: 'slideDownFade 0.2s ease'
           }}>
@@ -481,7 +502,7 @@ export const Navbar: React.FC = () => {
         {/* Mobile Navigation Drawer / Dropdown */}
         {mobileMenuOpen && (
           <div className="mobile-menu-drawer" style={{
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--bg-surface)',
             borderTop: '1px solid var(--border-subtle)',
             boxShadow: 'var(--shadow-xl)',
             padding: '1rem',
@@ -492,11 +513,53 @@ export const Navbar: React.FC = () => {
               to="/sell"
               onClick={() => setMobileMenuOpen(false)}
               className="btn btn-sell"
-              style={{ width: '100%', justifyContent: 'center', marginBottom: '0.875rem', padding: '0.75rem' }}
+              style={{ width: '100%', justifyContent: 'center', marginBottom: '0.75rem', padding: '0.75rem' }}
             >
               <PlusCircle size={18} />
               <span>Sell Something</span>
             </Link>
+
+            {/* Theme Toggle in Mobile Drawer */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '0.65rem 0.875rem',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--bg-muted)',
+              marginBottom: '0.75rem',
+              border: '1px solid var(--border-subtle)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                {isDark ? <Sun size={18} color="#fbbf24" /> : <Moon size={18} color="var(--primary)" />}
+                <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  Theme: {isDark ? 'Dark Mode' : 'Light Mode'}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="btn btn-sm"
+                aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  padding: '0.35rem 0.75rem',
+                  borderRadius: 'var(--radius-full)',
+                  backgroundColor: 'var(--bg-surface)',
+                  color: 'var(--text-primary)',
+                  border: '1px solid var(--border-strong)',
+                  cursor: 'pointer',
+                  fontSize: '0.8125rem',
+                  fontWeight: 600
+                }}
+              >
+                {isDark ? <Sun size={14} color="#fbbf24" /> : <Moon size={14} />}
+                <span>{isDark ? 'Light' : 'Dark'}</span>
+              </button>
+            </div>
 
             {/* Navigation Links */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>

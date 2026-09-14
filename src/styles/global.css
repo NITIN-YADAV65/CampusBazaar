@@ -13,6 +13,13 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  color-scheme: light;
+  transition: background-color 250ms ease, color 250ms ease;
+}
+
+html[data-theme='dark'],
+html.dark {
+  color-scheme: dark;
 }
 
 body {
@@ -21,6 +28,9 @@ body {
   flex-direction: column;
   line-height: 1.5;
   overflow-x: hidden;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  transition: background-color 250ms ease, color 250ms ease;
 }
 
 #root {
@@ -498,3 +508,101 @@ input::-ms-clear {
     transform: scale(1);
   }
 }
+
+/* Smooth Theme Transitions for Core Elements */
+.card,
+.form-input,
+.form-select,
+.form-textarea,
+header,
+footer,
+nav,
+aside,
+.profile-hero-card,
+.profile-side-card,
+.profile-listings-card {
+  transition: background-color 250ms ease, border-color 250ms ease, color 250ms ease, box-shadow 250ms ease;
+}
+
+/* Dark Mode Form & Element Specific Adjustments */
+[data-theme='dark'] select option {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .skeleton {
+  background: linear-gradient(90deg, #082823 25%, #0e3c35 50%, #082823 75%);
+  background-size: 200% 100%;
+}
+
+[data-theme='dark'] .badge-sold {
+  background-color: var(--bg-muted);
+  color: var(--text-muted);
+}
+
+/* Hero CTAs & Image Badges from Theme Reference */
+.btn-hero-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: var(--btn-hero-explore-bg);
+  color: var(--btn-hero-explore-color);
+  border: var(--btn-hero-explore-border);
+  padding: 0.85rem 1.85rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  box-shadow: var(--btn-hero-explore-shadow);
+  transition: all var(--transition-fast);
+}
+.btn-hero-explore:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.btn-hero-sell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background-color: var(--btn-hero-sell-bg);
+  color: var(--btn-hero-sell-color);
+  border: var(--btn-hero-sell-border);
+  padding: 0.85rem 1.85rem;
+  border-radius: 9999px;
+  font-weight: 800;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  box-shadow: var(--btn-hero-sell-shadow);
+  transition: all var(--transition-fast);
+}
+.btn-hero-sell:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.hero-badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: #ffffff;
+  color: #0f172a;
+  border-radius: 9999px;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  z-index: 3;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  transition: transform var(--transition-fast);
+}
+
+@media (max-width: 540px) {
+  .hero-badge {
+    display: none !important;
+  }
+}
+

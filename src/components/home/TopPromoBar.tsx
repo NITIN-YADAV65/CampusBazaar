@@ -6,8 +6,8 @@ export const TopPromoBar: React.FC = () => {
       aria-label="Campus Promotions"
       style={{
         position: 'relative',
-        backgroundColor: '#f7fefb',
-        borderBottom: '1px solid #e6f7f2',
+        backgroundColor: 'var(--bg-promo)',
+        borderBottom: '1px solid var(--border-promo)',
         paddingTop: '1.25rem',
         paddingBottom: '1.25rem',
         overflow: 'hidden'
@@ -75,11 +75,11 @@ export const TopPromoBar: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '0.85rem',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--bg-promo-card)',
               padding: '0.6rem 1.15rem',
               borderRadius: '9999px',
-              border: '1.5px solid #d1fae5',
-              boxShadow: '0 4px 14px rgba(16, 185, 129, 0.08)',
+              border: '1.5px solid var(--border-promo-card)',
+              boxShadow: 'var(--shadow-promo-card)',
               flexShrink: 0,
               transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)'
             }}
@@ -105,15 +105,15 @@ export const TopPromoBar: React.FC = () => {
             </svg>
 
             <div>
-              <div style={{ fontSize: '0.875rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.2 }}>
+              <div style={{ fontSize: '0.875rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2 }}>
                 Leaving hostel?
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.15rem' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.15rem' }}>
                 Sell your stuff to another{' '}
                 <span
                   style={{
-                    backgroundColor: '#dcfce7',
-                    color: '#15803d',
+                    backgroundColor: 'var(--bg-promo-badge)',
+                    color: 'var(--text-promo-badge)',
                     padding: '0.1rem 0.35rem',
                     borderRadius: '4px',
                     fontWeight: 700
@@ -131,11 +131,11 @@ export const TopPromoBar: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '0.85rem',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--bg-promo-card)',
               padding: '0.6rem 1.15rem',
               borderRadius: '9999px',
-              border: '1.5px solid #e0f2fe',
-              boxShadow: '0 4px 14px rgba(2, 132, 199, 0.08)',
+              border: '1.5px solid var(--border-promo-card)',
+              boxShadow: 'var(--shadow-promo-card)',
               flexShrink: 0,
               transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)'
             }}
@@ -156,12 +156,12 @@ export const TopPromoBar: React.FC = () => {
             </svg>
 
             <div>
-              <div style={{ fontSize: '0.875rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.2 }}>
+              <div style={{ fontSize: '0.875rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2 }}>
                 Need books for next semester?
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.15rem' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.15rem' }}>
                 Find them on{' '}
-                <span style={{ color: '#0d9488', fontWeight: 800 }}>CampusBazaar.</span>
+                <span style={{ color: 'var(--color-promo-brand)', fontWeight: 800 }}>CampusBazaar.</span>
               </div>
             </div>
           </div>
@@ -172,11 +172,11 @@ export const TopPromoBar: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '0.85rem',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--bg-promo-card)',
               padding: '0.6rem 1.15rem',
               borderRadius: '9999px',
-              border: '1.5px solid #dcfce7',
-              boxShadow: '0 4px 14px rgba(16, 185, 129, 0.08)',
+              border: '1.5px solid var(--border-promo-card)',
+              boxShadow: 'var(--shadow-promo-card)',
               flexShrink: 0,
               transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)'
             }}
@@ -204,15 +204,15 @@ export const TopPromoBar: React.FC = () => {
             </svg>
 
             <div>
-              <div style={{ fontSize: '0.875rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.2 }}>
+              <div style={{ fontSize: '0.875rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2 }}>
                 Don&apos;t throw it away.
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.15rem' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.15rem' }}>
                 Sell it to someone{' '}
                 <span
                   style={{
-                    backgroundColor: '#dcfce7',
-                    color: '#15803d',
+                    backgroundColor: 'var(--bg-promo-badge)',
+                    color: 'var(--text-promo-badge)',
                     padding: '0.1rem 0.35rem',
                     borderRadius: '4px',
                     fontWeight: 700
@@ -243,7 +243,7 @@ export const TopPromoBar: React.FC = () => {
                 fontFamily: "'Segoe Script', 'Caveat', 'Comic Sans MS', cursive",
                 fontSize: '1.2rem',
                 fontWeight: 700,
-                color: '#1e293b',
+                color: 'var(--text-primary)',
                 lineHeight: 1.15,
                 transform: 'rotate(-2deg)'
               }}
@@ -255,7 +255,7 @@ export const TopPromoBar: React.FC = () => {
                 fontFamily: "'Segoe Script', 'Caveat', 'Comic Sans MS', cursive",
                 fontSize: '1.25rem',
                 fontWeight: 700,
-                color: '#1e293b',
+                color: 'var(--text-primary)',
                 lineHeight: 1.15,
                 transform: 'rotate(-2deg)',
                 position: 'relative'

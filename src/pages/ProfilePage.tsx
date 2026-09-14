@@ -54,6 +54,19 @@ const getCategoryIcon = (categorySlugOrId?: string) => {
   return <Package size={14} color="#64748b" />;
 };
 
+// Helper functions to prevent example/mock values from appearing as actual values
+const cleanPhone = (val?: string | null): string => {
+  if (!val) return '';
+  const trimmed = val.trim();
+  return trimmed === '+91 98765 43210' ? '' : trimmed;
+};
+
+const cleanHostel = (val?: string | null): string => {
+  if (!val) return '';
+  const trimmed = val.trim();
+  return trimmed === 'Block 11, Room 204' ? '' : trimmed;
+};
+
 export const ProfilePage: React.FC = () => {
   const { user, profile, updateProfile, isEmailVerified, refreshProfile } = useAuth();
   const { listings, favorites, deleteListing, markAsSold } = useMarketplace();
@@ -91,19 +104,21 @@ export const ProfilePage: React.FC = () => {
 
   // Sync profile data when loaded
   useEffect(() => {
-    const savedHostel = user?.id ? localStorage.getItem(`cb_hostel_${user.id}`) : null;
-    const metadataHostel = (user?.user_metadata as any)?.hostel || '';
+    const rawSavedHostel = user?.id ? localStorage.getItem(`cb_hostel_${user.id}`) : null;
+    const rawMetadataHostel = (user?.user_metadata as any)?.hostel || '';
+    const savedHostel = cleanHostel(rawSavedHostel);
+    const metadataHostel = cleanHostel(rawMetadataHostel);
 
     if (profile) {
       setEditName(profile.full_name || 'Campus Student');
-      setEditPhone(profile.phone || '');
+      setEditPhone(cleanPhone(profile.phone));
       setEditBio(profile.bio || '');
-      setEditHostel(savedHostel || metadataHostel || 'Block 11, Room 204');
+      setEditHostel(savedHostel || metadataHostel || '');
       setEditAvatarUrl(getSafeAvatarUrl(profile.avatar_url, ''));
     } else if (user) {
       setEditName(user.user_metadata?.full_name || 'Campus Student');
-      setEditPhone(user.user_metadata?.phone || '');
-      setEditHostel(savedHostel || metadataHostel || 'Block 11, Room 204');
+      setEditPhone(cleanPhone(user.user_metadata?.phone));
+      setEditHostel(savedHostel || metadataHostel || '');
       setEditAvatarUrl(getSafeAvatarUrl(user.user_metadata?.avatar_url, ''));
     }
   }, [profile, user]);
@@ -168,6 +183,17 @@ export const ProfilePage: React.FC = () => {
     }
     setSelectedAvatarFile(null);
     setEditAvatarUrl(getSafeAvatarUrl(profile?.avatar_url, ''));
+
+    // Reset modal input fields to current saved data (or empty)
+    const rawSavedHostel = user?.id ? localStorage.getItem(`cb_hostel_${user.id}`) : null;
+    const rawMetadataHostel = (user?.user_metadata as any)?.hostel || '';
+    const savedHostel = cleanHostel(rawSavedHostel);
+    const metadataHostel = cleanHostel(rawMetadataHostel);
+
+    setEditName(profile?.full_name || user?.user_metadata?.full_name || 'Campus Student');
+    setEditPhone(cleanPhone(profile?.phone || user?.user_metadata?.phone));
+    setEditBio(profile?.bio || '');
+    setEditHostel(savedHostel || metadataHostel || '');
     setIsEditingProfile(false);
   };
 
@@ -222,23 +248,29 @@ export const ProfilePage: React.FC = () => {
     }
 
     // 2. Update Supabase public.profiles table
+    const cleanedPhone = cleanPhone(editPhone);
     const { error } = await updateProfile({
       full_name: editName.trim(),
-      phone: editPhone.trim() || null,
+      phone: cleanedPhone || null,
       bio: editBio.trim() || null,
       avatar_url: finalAvatarUrl
     });
 
     // 3. Persist hostel information in localStorage and auth user_metadata
     if (user?.id) {
-      localStorage.setItem(`cb_hostel_${user.id}`, editHostel.trim());
+      const trimmedHostel = cleanHostel(editHostel);
+      if (trimmedHostel) {
+        localStorage.setItem(`cb_hostel_${user.id}`, trimmedHostel);
+      } else {
+        localStorage.removeItem(`cb_hostel_${user.id}`);
+      }
       if (isSupabaseConfigured) {
         try {
           await supabase.auth.updateUser({
             data: {
               full_name: editName.trim(),
-              phone: editPhone.trim(),
-              hostel: editHostel.trim(),
+              phone: cleanedPhone || null,
+              hostel: trimmedHostel || null,
               avatar_url: finalAvatarUrl
             }
           });
@@ -296,11 +328,11 @@ export const ProfilePage: React.FC = () => {
   };
 
   const displayName = profile?.full_name || user?.user_metadata?.full_name || editName || 'Campus Student';
-  const displayPhone = profile?.phone || user?.user_metadata?.phone || editPhone;
+  const displayPhone = cleanPhone(profile?.phone || user?.user_metadata?.phone || editPhone);
   const displayEmail = user?.email || 'student@lpu.in';
   const displayBio = profile?.bio || editBio || 'A passionate student at LPU. Interested in tech, games, and always up for a good deal. Buying, selling, and connecting with fellow students. Let\'s make campus life easier together!';
   const displayAvatar = getSafeAvatarUrl(profile?.avatar_url || user?.user_metadata?.avatar_url);
-  const displayHostel = editHostel || 'Block 11, Room 204';
+  const displayHostel = cleanHostel(editHostel) || 'Not specified';
 
   return (
     <div className="profile-container">

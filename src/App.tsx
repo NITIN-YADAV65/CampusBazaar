@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { MarketplaceProvider } from './context/MarketplaceContext';
 import { NotificationProvider } from './context/NotificationContext';
@@ -33,10 +34,11 @@ export const App: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
-      <AuthProvider>
-        <MarketplaceProvider>
-          <NotificationProvider>
-            <div className="app-container">
+      <ThemeProvider>
+        <AuthProvider>
+          <MarketplaceProvider>
+            <NotificationProvider>
+              <div className="app-container">
               <Navbar />
               
               <main className="main-content">
@@ -90,6 +92,7 @@ export const App: React.FC = () => {
           </NotificationProvider>
         </MarketplaceProvider>
       </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 };
